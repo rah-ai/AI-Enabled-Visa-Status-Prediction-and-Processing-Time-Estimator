@@ -1,0 +1,112 @@
+ENCODING MAPPINGS
+========================================
+
+education_level:
+  0 = 10th Pass
+  1 = 12th Pass
+  2 = Graduate
+  3 = Post Graduate
+  4 = Doctorate
+
+visa_type:
+  0 = Business
+  1 = Conference
+  2 = Employment
+  3 = Entry
+  4 = Medical
+  5 = Research
+  6 = Student
+  7 = Tourist
+
+gender:
+  0 = Female
+  1 = Male
+
+nationality:
+  0 = Australia
+  1 = Bangladesh
+  2 = Brazil
+  3 = Canada
+  4 = China
+  5 = France
+  6 = Germany
+  7 = Italy
+  8 = Japan
+  9 = Malaysia
+  10 = Nepal
+  11 = Russia
+  12 = Singapore
+  13 = South Africa
+  14 = South Korea
+  15 = Sri Lanka
+  16 = Thailand
+  17 = UAE
+  18 = UK
+  19 = USA
+
+occupation:
+  0 = Academic
+  1 = Business Owner
+  2 = Government Employee
+  3 = Homemaker
+  4 = Professional
+  5 = Retired
+  6 = Self Employed
+  7 = Student
+
+processing_center:
+  0 = Ahmedabad
+  1 = Bengaluru
+  2 = Chennai
+  3 = Hyderabad
+  4 = Kolkata
+  5 = Mumbai
+  6 = New Delhi
+  7 = Pune
+
+visit_purpose:
+  0 = Academic Conference
+  1 = Academic Research
+  2 = Beach Holiday
+  3 = Business Conference
+  4 = Check-up
+  5 = Client Meeting
+  6 = Collaboration
+  7 = Conference
+  8 = Consultation
+  9 = Consulting
+  10 = Data Collection
+  11 = Emergency
+  12 = Exchange Program
+  13 = Family Visit
+  14 = Field Work
+  15 = Follow-up
+  16 = Healthcare
+  17 = Heritage Tour
+  18 = Hill Station
+  19 = IT Services
+  20 = Manufacturing
+  21 = OCI Holder
+  22 = PIO Visit
+  23 = Partnership Discussion
+  24 = PhD Research
+  25 = Postgraduate
+  26 = Returning Resident
+  27 = Scientific Study
+  28 = Seminar
+  29 = Short Course
+  30 = Sightseeing
+  31 = Site Visit
+  32 = Surgery
+  33 = Teaching
+  34 = Tech Summit
+  35 = Trade Fair
+  36 = Treatment
+  37 = Undergraduate
+  38 = Wildlife Safari
+  39 = Workshop
+
+previous_visa:
+  0 = No
+  1 = Yes
+

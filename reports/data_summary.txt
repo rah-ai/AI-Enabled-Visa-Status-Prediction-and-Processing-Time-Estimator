@@ -1,0 +1,69 @@
+============================================================
+INDIAN VISA APPLICATION DATASET - SUMMARY
+============================================================
+
+Total Records: 2000
+Total Columns: 37
+Missing Values: 0
+
+--- Columns ---
+  application_id: object
+  visa_type: object
+  applicant_age: float64
+  gender: object
+  education_level: object
+  nationality: object
+  occupation: object
+  processing_center: object
+  visit_purpose: object
+  duration_requested_days: int64
+  application_month: int64
+  application_year: int64
+  previous_visa: object
+  num_previous_visits: float64
+  financial_proof_usd: float64
+  has_sponsor: int64
+  documents_complete: float64
+  express_processing: int64
+  processing_time_days: int64
+  visa_status: object
+  education_encoded: int64
+  visa_type_encoded: int64
+  gender_encoded: int64
+  nationality_encoded: int64
+  occupation_encoded: int64
+  processing_center_encoded: int64
+  visit_purpose_encoded: int64
+  previous_visa_encoded: int64
+  visa_type_Business: bool
+  visa_type_Conference: bool
+  visa_type_Employment: bool
+  visa_type_Entry: bool
+  visa_type_Medical: bool
+  visa_type_Research: bool
+  visa_type_Student: bool
+  visa_type_Tourist: bool
+  visa_status_encoded: int64
+
+--- Target Variable: processing_time_days ---
+  Min: 2
+  Max: 38
+  Mean: 11.10
+  Std: 6.33
+
+--- Visa Status Distribution ---
+  Approved: 1701 (85.0%)
+  Rejected: 193 (9.7%)
+  Pending: 106 (5.3%)
+
+--- Visa Type Distribution ---
+  Tourist: 701 (35.0%)
+  Business: 497 (24.9%)
+  Employment: 245 (12.2%)
+  Student: 202 (10.1%)
+  Medical: 114 (5.7%)
+  Research: 85 (4.2%)
+  Entry: 82 (4.1%)
+  Conference: 74 (3.7%)
+
+============================================================
