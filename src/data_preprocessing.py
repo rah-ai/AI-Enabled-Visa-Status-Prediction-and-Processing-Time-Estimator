@@ -2,7 +2,7 @@
 # Author: Harsh
 # Infosys Springboard Project - Milestone 1
 # Handles missing values, encodes categorical variables, prepares clean data
-
+#section-1
 import pandas as pd 
 import numpy as np
 import os
@@ -17,7 +17,7 @@ def load_data(filepath):
     print(f"Loaded {len(df)} records with {len(df.columns)} columns")
     return df
 
-
+#section-2
 def analyze_missing_values(df):
     """Check and show missing value stats"""
     print("\n--- Missing Value Analysis ---")
@@ -60,7 +60,7 @@ def handle_missing_values(df):
     # categorical columns  
     categorical_cols = ['education_level', 'occupation']
     
-    # fill numeric with median
+    # fill numeric with median-section-3
     for col in numeric_cols:
         if col in df_clean.columns and df_clean[col].isnull().sum() > 0:
             median_val = df_clean[col].median()
@@ -68,7 +68,7 @@ def handle_missing_values(df):
             df_clean[col].fillna(median_val, inplace=True)
             print(f"  {col}: filled {count} nulls with median = {median_val:.1f}")
     
-    # fill categorical with mode
+    #section-4
     for col in categorical_cols:
         if col in df_clean.columns and df_clean[col].isnull().sum() > 0:
             mode_val = df_clean[col].mode()[0]
@@ -79,9 +79,9 @@ def handle_missing_values(df):
     print("\nMissing value handling done!")
     return df_clean
 
-
+#section-5
 def label_encode_column(series):
-    """Simple label encoding without sklearn"""
+   
     unique_vals = series.unique()
     mapping = {val: idx for idx, val in enumerate(sorted(unique_vals))}
     return series.map(mapping), mapping
@@ -97,7 +97,7 @@ def encode_categorical_variables(df):
     df_encoded = df.copy()
     encodings = {}
     
-    # education level has natural order
+    # education level has natural order-section-6
     edu_order = {'10th Pass': 0, '12th Pass': 1, 'Graduate': 2, 'Post Graduate': 3, 'Doctorate': 4}
     if 'education_level' in df_encoded.columns:
         df_encoded['education_encoded'] = df_encoded['education_level'].map(edu_order)
@@ -115,7 +115,7 @@ def encode_categorical_variables(df):
             encodings[col] = mapping
             print(f"  {col}: label encoded ({len(mapping)} categories)")
     
-    # one-hot encode visa_type
+    # one-hot encode visa_type-section-7
     if 'visa_type' in df_encoded.columns:
         visa_dummies = pd.get_dummies(df_encoded['visa_type'], prefix='visa_type')
         df_encoded = pd.concat([df_encoded, visa_dummies], axis=1)
@@ -134,7 +134,7 @@ def process_target_labels(df):
     print("\n--- Processing Target Labels ---")
     df_out = df.copy()
     
-    # processing time to integer
+    # processing time to integer-section-8
     df_out['processing_time_days'] = df_out['processing_time_days'].astype(int)
     print(f"  processing_time_days: converted to int")
     print(f"    Min: {df_out['processing_time_days'].min()} days")
@@ -200,7 +200,7 @@ def generate_summary_report(df, path):
     
     return report
 
-
+#section-9
 def main():
     print("=" * 60)
     print("INDIAN VISA DATA PREPROCESSING PIPELINE")
