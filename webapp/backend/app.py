@@ -152,7 +152,16 @@ async def get_options():
 # Serve frontend static files
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
 if os.path.exists(frontend_path):
-    app.mount("/static", StaticFiles(directory=frontend_path), name="static")
+    # Serve static files (CSS, JS) at root
+    @app.get("/styles.css")
+    async def serve_css():
+        """Serve CSS file"""
+        return FileResponse(os.path.join(frontend_path, "styles.css"), media_type="text/css")
+    
+    @app.get("/app.js")
+    async def serve_js():
+        """Serve JavaScript file"""
+        return FileResponse(os.path.join(frontend_path, "app.js"), media_type="application/javascript")
     
     @app.get("/")
     async def serve_home():
@@ -162,6 +171,11 @@ if os.path.exists(frontend_path):
     @app.get("/predict")
     async def serve_predict():
         """Serve the prediction page"""
+        return FileResponse(os.path.join(frontend_path, "predict.html"))
+    
+    @app.get("/predict.html")
+    async def serve_predict_html():
+        """Serve the prediction page (with .html extension)"""
         return FileResponse(os.path.join(frontend_path, "predict.html"))
 
 
