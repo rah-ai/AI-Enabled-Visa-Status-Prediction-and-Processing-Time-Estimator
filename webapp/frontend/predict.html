@@ -7,23 +7,15 @@
     <meta name="description"
         content="Get your India visa processing time estimate. Fill in your details for an AI-powered prediction.">
     <title>Predict Processing Time | India Visa Estimator</title>
-
-    <!-- Google Fonts - Outfit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="form-page">
-    <!-- Header -->
     <header class="header">
         <div class="container header__inner">
             <a href="/" class="logo">
-                <div class="logo__icon">🇮🇳</div>
-                <div class="logo__text">Visa<span>Estimator</span></div>
+                <div class="logo__mark">VE</div>
+                <span>VisaEstimator</span>
             </a>
             <nav class="nav">
                 <a href="/" class="nav__link">Home</a>
@@ -32,19 +24,15 @@
         </div>
     </header>
 
-    <!-- Form Container -->
-    <div class="form-container">
+    <div class="form-wrapper">
         <div class="form-header">
             <h1 class="form-header__title">Estimate Your Processing Time</h1>
             <p class="form-header__subtitle">Fill in your visa application details below</p>
         </div>
 
         <form id="prediction-form" class="form-card">
-            <!-- Section 1: Applicant Information -->
             <div class="form-section">
-                <h2 class="form-section__title">
-                    <span>👤</span> Applicant Information
-                </h2>
+                <h2 class="form-section__title">Applicant Information</h2>
 
                 <div class="form-row">
                     <div class="form-group">
@@ -113,11 +101,8 @@
                 </div>
             </div>
 
-            <!-- Section 2: Visa Details -->
             <div class="form-section">
-                <h2 class="form-section__title">
-                    <span>🛂</span> Visa Details
-                </h2>
+                <h2 class="form-section__title">Visa Details</h2>
 
                 <div class="form-row">
                     <div class="form-group">
@@ -171,11 +156,8 @@
                 </div>
             </div>
 
-            <!-- Section 3: Supporting Details -->
             <div class="form-section">
-                <h2 class="form-section__title">
-                    <span>📄</span> Supporting Details
-                </h2>
+                <h2 class="form-section__title">Supporting Details</h2>
 
                 <div class="form-row">
                     <div class="form-group">
@@ -184,7 +166,7 @@
                             value="15000" placeholder="e.g., 15000">
                     </div>
 
-                    <div class="form-group" style="display: flex; flex-direction: column; justify-content: flex-end;">
+                    <div class="form-group" style="justify-content: flex-end;">
                         <label class="form-checkbox">
                             <input type="checkbox" id="has_sponsor" name="has_sponsor">
                             <span>I have a sponsor in India</span>
@@ -192,7 +174,7 @@
                     </div>
                 </div>
 
-                <div class="form-row" style="margin-top: var(--space-md);">
+                <div class="form-row" style="margin-top: 16px;">
                     <div class="form-group">
                         <label class="form-checkbox">
                             <input type="checkbox" id="documents_complete" name="documents_complete" checked>
@@ -209,38 +191,26 @@
                 </div>
             </div>
 
-            <!-- Submit Button -->
             <div class="form-actions">
-                <button type="button" class="btn btn--outline" onclick="resetForm()">
-                    Clear Form
-                </button>
-                <button type="submit" class="btn btn--accent btn--large" id="submit-btn">
-                    Get Processing Estimate →
-                </button>
+                <button type="button" class="btn btn--outline" onclick="resetForm()">Clear Form</button>
+                <button type="submit" class="btn btn--accent btn--large" id="submit-btn">Get Processing
+                    Estimate</button>
             </div>
         </form>
 
-        <!-- Loading State -->
         <div class="loading" id="loading">
-            <div class="loading__spinner"></div>
-            <span>Analyzing your application...</span>
+            <span class="loading__spinner"></span>
+            <span class="loading__text">Analyzing your application...</span>
         </div>
 
-        <!-- Results Panel -->
-        <div class="results-panel" id="results-panel">
+        <div class="results" id="results-panel">
             <div class="results-card">
-                <div class="results-header">
-                    <h2 class="results-header__title">📋 Your Visa Processing Estimate</h2>
-                </div>
+                <div class="results-header">Your Visa Processing Estimate</div>
 
                 <div class="results-body">
                     <div class="results-main">
-                        <div class="results-days" id="result-days">
-                            -- <span>days</span>
-                        </div>
-                        <p class="results-range" id="result-range">
-                            Estimated range: -- to -- days
-                        </p>
+                        <div class="results-days" id="result-days">-- <span>days</span></div>
+                        <p class="results-range" id="result-range">Estimated range: -- to -- days</p>
                     </div>
 
                     <div class="results-grid">
@@ -262,47 +232,34 @@
                         </div>
                     </div>
 
-                    <!-- Risk Gauge -->
-                    <div class="risk-gauge">
-                        <h3 class="risk-gauge__title">Risk Assessment</h3>
-                        <div class="risk-gauge__bar">
-                            <div class="risk-gauge__fill" id="risk-gauge-fill" style="width: 0%;"></div>
+                    <div class="risk-section">
+                        <h3 class="risk-section__title">Risk Assessment</h3>
+                        <div class="risk-bar">
+                            <div class="risk-bar__fill" id="risk-gauge-fill"></div>
                         </div>
-                        <div class="risk-gauge__labels">
+                        <div class="risk-labels">
                             <span>Low Risk</span>
                             <span>Medium</span>
                             <span>High Risk</span>
                         </div>
                     </div>
 
-                    <!-- Factors -->
-                    <div
-                        style="margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 2px dashed var(--gray-200);">
-                        <h3 style="font-weight: 600; color: var(--navy-800); margin-bottom: var(--space-md);">
-                            Key Factors Considered
-                        </h3>
-                        <div id="result-factors"
-                            style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 0.9rem;">
-                            <!-- Filled by JS -->
-                        </div>
+                    <div class="factors">
+                        <h3 class="factors__title">Key Factors Considered</h3>
+                        <div class="factors__grid" id="result-factors"></div>
                     </div>
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: var(--space-xl);">
-                <button class="btn btn--outline" onclick="resetAndScroll()">
-                    ← Try Another Estimate
-                </button>
+            <div style="text-align: center; margin-top: 24px;">
+                <button class="btn btn--outline" onclick="resetAndScroll()">Try Another Estimate</button>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container footer__inner">
-            <p class="footer__text">
-                © 2026 <span>VisaEstimator</span> | Infosys Springboard Project by Harsh
-            </p>
+            <p class="footer__text">© 2026 VisaEstimator | Infosys Springboard Project by Rahul Makwana</p>
             <div class="footer__links">
                 <a href="/" class="footer__link">Home</a>
                 <a href="/#features" class="footer__link">Features</a>
