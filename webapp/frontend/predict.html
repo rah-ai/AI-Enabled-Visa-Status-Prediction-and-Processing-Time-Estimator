@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Get your India visa processing time estimate. Fill in your details for an AI-powered prediction.">
+    <title>Predict Processing Time | India Visa Estimator</title>
+
+    <!-- Google Fonts - Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="form-page">
+    <!-- Header -->
+    <header class="header">
+        <div class="container header__inner">
+            <a href="/" class="logo">
+                <div class="logo__icon">🇮🇳</div>
+                <div class="logo__text">Visa<span>Estimator</span></div>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav__link">Home</a>
+                <a href="/#features" class="nav__link">Features</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <div class="form-header">
+            <h1 class="form-header__title">Estimate Your Processing Time</h1>
+            <p class="form-header__subtitle">Fill in your visa application details below</p>
+        </div>
+
+        <form id="prediction-form" class="form-card">
+            <!-- Section 1: Applicant Information -->
+            <div class="form-section">
+                <h2 class="form-section__title">
+                    <span>👤</span> Applicant Information
+                </h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="age">
+                            Age <span class="required">*</span>
+                        </label>
+                        <input type="number" id="age" name="age" class="form-input" min="18" max="100"
+                            placeholder="e.g., 28" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="nationality">
+                            Nationality <span class="required">*</span>
+                        </label>
+                        <select id="nationality" name="nationality" class="form-select" required>
+                            <option value="">Select country</option>
+                            <option value="Australia">Australia</option>
+                            <option value="Bangladesh">Bangladesh</option>
+                            <option value="Brazil">Brazil</option>
+                            <option value="Canada">Canada</option>
+                            <option value="China">China</option>
+                            <option value="France">France</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Italy">Italy</option>
+                            <option value="Japan">Japan</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="Nepal">Nepal</option>
+                            <option value="Russia">Russia</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="South Africa">South Africa</option>
+                            <option value="South Korea">South Korea</option>
+                            <option value="Sri Lanka">Sri Lanka</option>
+                            <option value="Thailand">Thailand</option>
+                            <option value="UAE">UAE</option>
+                            <option value="UK">UK</option>
+                            <option value="USA">USA</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="occupation">Occupation</label>
+                        <select id="occupation" name="occupation" class="form-select">
+                            <option value="Professional">Professional</option>
+                            <option value="Business Owner">Business Owner</option>
+                            <option value="Student">Student</option>
+                            <option value="Academic">Academic</option>
+                            <option value="Government Employee">Government Employee</option>
+                            <option value="Self Employed">Self Employed</option>
+                            <option value="Retired">Retired</option>
+                            <option value="Homemaker">Homemaker</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="education">Education Level</label>
+                        <select id="education" name="education" class="form-select">
+                            <option value="10th Pass">10th Pass</option>
+                            <option value="12th Pass">12th Pass</option>
+                            <option value="Graduate" selected>Graduate</option>
+                            <option value="Post Graduate">Post Graduate</option>
+                            <option value="Doctorate">Doctorate</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Visa Details -->
+            <div class="form-section">
+                <h2 class="form-section__title">
+                    <span>🛂</span> Visa Details
+                </h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="visa_type">
+                            Visa Type <span class="required">*</span>
+                        </label>
+                        <select id="visa_type" name="visa_type" class="form-select" required>
+                            <option value="">Select visa type</option>
+                            <option value="Tourist">Tourist Visa</option>
+                            <option value="Business">Business Visa</option>
+                            <option value="Student">Student Visa</option>
+                            <option value="Employment">Employment Visa</option>
+                            <option value="Medical">Medical Visa</option>
+                            <option value="Conference">Conference Visa</option>
+                            <option value="Research">Research Visa</option>
+                            <option value="Entry">Entry Visa</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="duration">Duration Requested (days)</label>
+                        <input type="number" id="duration" name="duration" class="form-input" min="1" max="365"
+                            value="30" placeholder="e.g., 30">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="previous_visits">Previous India Visits</label>
+                        <input type="number" id="previous_visits" name="previous_visits" class="form-input" min="0"
+                            max="50" value="0" placeholder="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="application_month">Application Month</label>
+                        <select id="application_month" name="application_month" class="form-select">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Supporting Details -->
+            <div class="form-section">
+                <h2 class="form-section__title">
+                    <span>📄</span> Supporting Details
+                </h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="financial_proof">Financial Proof (USD)</label>
+                        <input type="number" id="financial_proof" name="financial_proof" class="form-input" min="0"
+                            value="15000" placeholder="e.g., 15000">
+                    </div>
+
+                    <div class="form-group" style="display: flex; flex-direction: column; justify-content: flex-end;">
+                        <label class="form-checkbox">
+                            <input type="checkbox" id="has_sponsor" name="has_sponsor">
+                            <span>I have a sponsor in India</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-row" style="margin-top: var(--space-md);">
+                    <div class="form-group">
+                        <label class="form-checkbox">
+                            <input type="checkbox" id="documents_complete" name="documents_complete" checked>
+                            <span>All documents are complete</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-checkbox">
+                            <input type="checkbox" id="express_processing" name="express_processing">
+                            <span>Express processing requested</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="button" class="btn btn--outline" onclick="resetForm()">
+                    Clear Form
+                </button>
+                <button type="submit" class="btn btn--accent btn--large" id="submit-btn">
+                    Get Processing Estimate →
+                </button>
+            </div>
+        </form>
+
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+            <div class="loading__spinner"></div>
+            <span>Analyzing your application...</span>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="results-panel" id="results-panel">
+            <div class="results-card">
+                <div class="results-header">
+                    <h2 class="results-header__title">📋 Your Visa Processing Estimate</h2>
+                </div>
+
+                <div class="results-body">
+                    <div class="results-main">
+                        <div class="results-days" id="result-days">
+                            -- <span>days</span>
+                        </div>
+                        <p class="results-range" id="result-range">
+                            Estimated range: -- to -- days
+                        </p>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-item__label">Risk Level</div>
+                            <div class="result-item__value" id="result-risk">--</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-item__label">Approval Likelihood</div>
+                            <div class="result-item__value" id="result-approval">--</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-item__label">Country Average</div>
+                            <div class="result-item__value" id="result-country-avg">-- days</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-item__label">Visa Type Average</div>
+                            <div class="result-item__value" id="result-visa-avg">-- days</div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Gauge -->
+                    <div class="risk-gauge">
+                        <h3 class="risk-gauge__title">Risk Assessment</h3>
+                        <div class="risk-gauge__bar">
+                            <div class="risk-gauge__fill" id="risk-gauge-fill" style="width: 0%;"></div>
+                        </div>
+                        <div class="risk-gauge__labels">
+                            <span>Low Risk</span>
+                            <span>Medium</span>
+                            <span>High Risk</span>
+                        </div>
+                    </div>
+
+                    <!-- Factors -->
+                    <div
+                        style="margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 2px dashed var(--gray-200);">
+                        <h3 style="font-weight: 600; color: var(--navy-800); margin-bottom: var(--space-md);">
+                            Key Factors Considered
+                        </h3>
+                        <div id="result-factors"
+                            style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); font-size: 0.9rem;">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: var(--space-xl);">
+                <button class="btn btn--outline" onclick="resetAndScroll()">
+                    ← Try Another Estimate
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p class="footer__text">
+                © 2026 <span>VisaEstimator</span> | Infosys Springboard Project by Harsh
+            </p>
+            <div class="footer__links">
+                <a href="/" class="footer__link">Home</a>
+                <a href="/#features" class="footer__link">Features</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

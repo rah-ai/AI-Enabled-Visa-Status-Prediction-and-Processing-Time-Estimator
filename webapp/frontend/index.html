@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered visa processing time estimator for India. Get accurate predictions for your visa application.">
+    <title>India Visa Processing Estimator | AI-Powered Predictions</title>
+    
+    <!-- Google Fonts - Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header__inner">
+            <a href="/" class="logo">
+                <div class="logo__icon">🇮🇳</div>
+                <div class="logo__text">Visa<span>Estimator</span></div>
+            </a>
+            <nav class="nav">
+                <a href="#features" class="nav__link">Features</a>
+                <a href="#how-it-works" class="nav__link">How It Works</a>
+                <a href="predict.html" class="btn btn--primary">Check Processing Time</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero__inner">
+            <div class="hero__content">
+                <div class="hero__badge">
+                    ✨ AI-Powered Predictions
+                </div>
+                <h1 class="hero__title">
+                    Know Your <span>Visa Processing Time</span> Before You Apply
+                </h1>
+                <p class="hero__subtitle">
+                    Get accurate processing time estimates for your India visa application. 
+                    Our AI model is trained on 2,000+ real visa applications with 77% accuracy.
+                </p>
+                <div class="hero__cta">
+                    <a href="predict.html" class="btn btn--accent btn--large">
+                        Get Estimate Now →
+                    </a>
+                    <a href="#how-it-works" class="btn btn--outline btn--large">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            
+            <div class="hero__visual">
+                <div class="hero__card">
+                    <div class="hero__card-header">
+                        <div class="hero__card-icon">📋</div>
+                        <div>
+                            <div class="hero__card-title">Sample Prediction</div>
+                            <div class="hero__card-subtitle">Tourist Visa - USA</div>
+                        </div>
+                    </div>
+                    <div class="hero__stat">
+                        <span class="hero__stat-label">Estimated Time</span>
+                        <span class="hero__stat-value">5-7 days</span>
+                    </div>
+                    <div class="hero__stat">
+                        <span class="hero__stat-label">Risk Level</span>
+                        <span class="hero__stat-value highlight">Low</span>
+                    </div>
+                    <div class="hero__stat">
+                        <span class="hero__stat-label">Approval Likelihood</span>
+                        <span class="hero__stat-value highlight">85%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats__grid" id="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-item__value" id="stat-applications">2,000<span>+</span></div>
+                    <div class="stat-item__label">Applications Analyzed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-item__value" id="stat-accuracy">77<span>%</span></div>
+                    <div class="stat-item__label">Model Accuracy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-item__value" id="stat-avg-time">8.5<span> days</span></div>
+                    <div class="stat-item__label">Average Processing</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-item__value" id="stat-approval">72<span>%</span></div>
+                    <div class="stat-item__label">Approval Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features section" id="features">
+        <div class="container">
+            <div class="features__header">
+                <h2 class="features__title">Why Use Our Estimator?</h2>
+                <p class="features__subtitle">Built with real data and machine learning for accurate predictions</p>
+            </div>
+            
+            <div class="features__grid">
+                <div class="feature-card">
+                    <div class="feature-card__icon">🎯</div>
+                    <h3 class="feature-card__title">Accurate Predictions</h3>
+                    <p class="feature-card__desc">
+                        Our Random Forest model achieves 77% accuracy, trained on actual visa processing data from multiple centers.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-card__icon">📊</div>
+                    <h3 class="feature-card__title">Risk Assessment</h3>
+                    <p class="feature-card__desc">
+                        Get a detailed risk score based on your application factors like documents, financial proof, and history.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-card__icon">🌍</div>
+                    <h3 class="feature-card__title">Country-Specific Data</h3>
+                    <p class="feature-card__desc">
+                        Processing times vary by nationality. Our model accounts for historical patterns from 20+ countries.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-card__icon">📅</div>
+                    <h3 class="feature-card__title">Seasonal Insights</h3>
+                    <p class="feature-card__desc">
+                        Peak season (Oct-Mar) affects processing times. We factor in when you're applying for better estimates.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-card__icon">⚡</div>
+                    <h3 class="feature-card__title">Instant Results</h3>
+                    <p class="feature-card__desc">
+                        No waiting, no registration. Get your processing time estimate instantly with confidence intervals.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-card__icon">🔒</div>
+                    <h3 class="feature-card__title">Private & Secure</h3>
+                    <p class="feature-card__desc">
+                        We don't store your data. All predictions happen in real-time and your information stays private.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="how-it-works" style="background: var(--white);">
+        <div class="container">
+            <div class="features__header">
+                <h2 class="features__title">How It Works</h2>
+                <p class="features__subtitle">Three simple steps to get your visa processing estimate</p>
+            </div>
+            
+            <div class="features__grid">
+                <div class="feature-card" style="text-align: center;">
+                    <div class="feature-card__icon" style="margin: 0 auto var(--space-md);">1️⃣</div>
+                    <h3 class="feature-card__title">Enter Details</h3>
+                    <p class="feature-card__desc">
+                        Fill in your basic information: nationality, visa type, age, occupation, and application details.
+                    </p>
+                </div>
+                
+                <div class="feature-card" style="text-align: center;">
+                    <div class="feature-card__icon" style="margin: 0 auto var(--space-md);">2️⃣</div>
+                    <h3 class="feature-card__title">AI Analysis</h3>
+                    <p class="feature-card__desc">
+                        Our machine learning model analyzes your profile against 2,000+ historical applications.
+                    </p>
+                </div>
+                
+                <div class="feature-card" style="text-align: center;">
+                    <div class="feature-card__icon" style="margin: 0 auto var(--space-md);">3️⃣</div>
+                    <h3 class="feature-card__title">Get Results</h3>
+                    <p class="feature-card__desc">
+                        Receive your estimated processing time, risk assessment, and approval likelihood instantly.
+                    </p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: var(--space-2xl);">
+                <a href="predict.html" class="btn btn--accent btn--large">
+                    Try Estimator Now →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p class="footer__text">
+                © 2026 <span>VisaEstimator</span> | Infosys Springboard Project by Harsh
+            </p>
+            <div class="footer__links">
+                <a href="#features" class="footer__link">Features</a>
+                <a href="#how-it-works" class="footer__link">How It Works</a>
+                <a href="predict.html" class="footer__link">Get Estimate</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load JS -->
+    <script src="app.js"></script>
+    <script>
+        // Load real statistics from API
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/statistics');
+                if (response.ok) {
+                    const stats = await response.json();
+                    document.getElementById('stat-applications').innerHTML = 
+                        stats.total_applications.toLocaleString() + '<span>+</span>';
+                    document.getElementById('stat-accuracy').innerHTML = 
+                        Math.round(stats.model_accuracy) + '<span>%</span>';
+                    document.getElementById('stat-avg-time').innerHTML = 
+                        stats.avg_processing_time + '<span> days</span>';
+                    document.getElementById('stat-approval').innerHTML = 
+                        Math.round(stats.approval_rate) + '<span>%</span>';
+                }
+            } catch (e) {
+                console.log('Using default stats');
+            }
+        }
+        loadStats();
+    </script>
+</body>
+</html>
