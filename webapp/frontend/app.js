@@ -1,5 +1,5 @@
 /**
- * India Visa Processing Estimator
+ * VisaChronos - AI Visa Processing Time Predictor
  * Frontend JavaScript
  * Author: Rahul Makwana
  * Infosys Springboard Project
@@ -8,13 +8,67 @@
 // API Configuration
 const API_BASE = '';
 
-// DOM Elements
+// ============================================
+// THEME TOGGLE
+// ============================================
+function initTheme() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+
+    // Check saved preference or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+
+    themeToggle.addEventListener('click', function () {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Add smooth transition
+        document.body.style.transition = 'background 0.3s ease, color 0.3s ease';
+    });
+}
+
+// ============================================
+// SCROLL REVEAL ANIMATIONS
+// ============================================
+function initScrollReveal() {
+    const revealElements = document.querySelectorAll('.reveal');
+
+    if (!revealElements.length) return;
+
+    const revealOnScroll = () => {
+        revealElements.forEach(el => {
+            const elementTop = el.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (elementTop < windowHeight - 100) {
+                el.classList.add('visible');
+            }
+        });
+    };
+
+    // Initial check
+    revealOnScroll();
+
+    // On scroll
+    window.addEventListener('scroll', revealOnScroll, { passive: true });
+}
+
+// ============================================
+// FORM HANDLING
+// ============================================
 const form = document.getElementById('prediction-form');
 const submitBtn = document.getElementById('submit-btn');
 const loadingEl = document.getElementById('loading');
 const resultsPanel = document.getElementById('results-panel');
 
-// Form submission handler
 if (form) {
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
@@ -64,7 +118,9 @@ if (form) {
     });
 }
 
-// Display prediction results
+// ============================================
+// DISPLAY RESULTS
+// ============================================
 function displayResults(data) {
     // Main prediction
     document.getElementById('result-days').innerHTML =
@@ -95,6 +151,9 @@ function displayResults(data) {
     // Key factors
     displayFactors(data.factors);
 
+    // Timeline visualization
+    displayTimeline(data.predicted_days, data.min_days, data.max_days);
+
     // Show results
     showResults();
 }
@@ -102,6 +161,8 @@ function displayResults(data) {
 // Update the risk gauge bar
 function updateRiskGauge(riskScore) {
     const gauge = document.getElementById('risk-gauge-fill');
+    if (!gauge) return;
+
     // Risk score is 0-5+, map to percentage
     const percentage = Math.min((riskScore / 5) * 100, 100);
     gauge.style.width = percentage + '%';
@@ -120,6 +181,8 @@ function updateRiskGauge(riskScore) {
 // Display key factors
 function displayFactors(factors) {
     const container = document.getElementById('result-factors');
+    if (!container) return;
+
     container.innerHTML = '';
 
     if (!factors) return;
@@ -146,7 +209,58 @@ function displayFactors(factors) {
     }
 }
 
-// Helper functions
+// Display timeline visualization
+function displayTimeline(predictedDays, minDays, maxDays) {
+    const timelineContainer = document.getElementById('timeline-container');
+    if (!timelineContainer) return;
+
+    const today = new Date();
+    const expectedDate = new Date(today);
+    expectedDate.setDate(expectedDate.getDate() + Math.round(predictedDays));
+
+    const maxDate = new Date(today);
+    maxDate.setDate(maxDate.getDate() + Math.round(maxDays));
+
+    const formatDate = (date) => {
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        });
+    };
+
+    timelineContainer.innerHTML = `
+        <div class="timeline">
+            <div class="timeline__track">
+                <div class="timeline__progress" style="width: 50%"></div>
+            </div>
+            <div class="timeline__points">
+                <div class="timeline__point timeline__point--start">
+                    <div class="timeline__marker"></div>
+                    <div class="timeline__label">Application</div>
+                    <div class="timeline__date">${formatDate(today)}</div>
+                </div>
+                <div class="timeline__point timeline__point--mid">
+                    <div class="timeline__marker timeline__marker--active"></div>
+                    <div class="timeline__label">Expected</div>
+                    <div class="timeline__date">${formatDate(expectedDate)}</div>
+                </div>
+                <div class="timeline__point timeline__point--end">
+                    <div class="timeline__marker"></div>
+                    <div class="timeline__label">Latest</div>
+                    <div class="timeline__date">${formatDate(maxDate)}</div>
+                </div>
+            </div>
+        </div>
+        <div class="timeline__summary">
+            <p>If you apply today, expect your visa by <strong>${formatDate(expectedDate)}</strong></p>
+        </div>
+    `;
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
 function getRiskClass(riskLevel) {
     if (riskLevel === 'Low') return 'success';
     if (riskLevel === 'Medium') return 'warning';
@@ -172,7 +286,7 @@ function showLoading(show) {
 function showResults() {
     if (resultsPanel) {
         resultsPanel.classList.add('visible');
-        // Scroll to results
+        // Smooth scroll to results
         setTimeout(function () {
             resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
@@ -208,7 +322,11 @@ function setDefaultMonth() {
     }
 }
 
-// Initialize on page load
+// ============================================
+// INITIALIZE
+// ============================================
 document.addEventListener('DOMContentLoaded', function () {
+    initTheme();
+    initScrollReveal();
     setDefaultMonth();
 });
