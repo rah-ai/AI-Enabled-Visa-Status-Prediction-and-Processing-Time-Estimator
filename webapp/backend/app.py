@@ -152,34 +152,58 @@ async def get_options():
 # Serve frontend static files
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
 if os.path.exists(frontend_path):
-    # Serve static files (CSS, JS) at root
+    # Helper function to create response with no-cache headers
+    def create_file_response(file_path: str, media_type: str = None):
+        """Create FileResponse with no-cache headers"""
+        response = FileResponse(file_path, media_type=media_type)
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
+    
     @app.get("/styles.css")
     async def serve_css():
         """Serve CSS file"""
-        return FileResponse(os.path.join(frontend_path, "styles.css"), media_type="text/css")
+        return create_file_response(
+            os.path.join(frontend_path, "styles.css"), 
+            media_type="text/css"
+        )
     
     @app.get("/app.js")
     async def serve_js():
         """Serve JavaScript file"""
-        return FileResponse(os.path.join(frontend_path, "app.js"), media_type="application/javascript")
+        return create_file_response(
+            os.path.join(frontend_path, "app.js"), 
+            media_type="application/javascript"
+        )
     
     @app.get("/")
     async def serve_home():
         """Serve the home page"""
-        return FileResponse(os.path.join(frontend_path, "index.html"))
+        return create_file_response(
+            os.path.join(frontend_path, "index.html"),
+            media_type="text/html"
+        )
     
     @app.get("/predict")
     async def serve_predict():
         """Serve the prediction page"""
-        return FileResponse(os.path.join(frontend_path, "predict.html"))
+        return create_file_response(
+            os.path.join(frontend_path, "predict.html"),
+            media_type="text/html"
+        )
     
     @app.get("/predict.html")
     async def serve_predict_html():
         """Serve the prediction page (with .html extension)"""
-        return FileResponse(os.path.join(frontend_path, "predict.html"))
+        return create_file_response(
+            os.path.join(frontend_path, "predict.html"),
+            media_type="text/html"
+        )
 
 
 # Run with: uvicorn app:app --reload --port 8000
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
