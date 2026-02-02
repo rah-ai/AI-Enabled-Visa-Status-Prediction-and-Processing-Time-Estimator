@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Get your India visa processing time estimate. Fill in your details for an AI-powered prediction.">
-    <title>Predict Processing Time | India Visa Estimator</title>
+        content="Get your India visa processing time estimate. AI-powered prediction based on real application data.">
+    <title>Predict Processing Time | IndiaVisaPredict</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -14,12 +14,23 @@
     <header class="header">
         <div class="container header__inner">
             <a href="/" class="logo">
-                <div class="logo__mark">VE</div>
-                <span>VisaEstimator</span>
+                <svg class="logo__icon" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <rect x="4" y="2" width="32" height="36" rx="3" fill="#1a365d" />
+                    <rect x="8" y="6" width="24" height="4" rx="1" fill="#c05621" />
+                    <circle cx="20" cy="22" r="8" fill="none" stroke="#fff" stroke-width="2" />
+                    <line x1="20" y1="22" x2="20" y2="17" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+                    <line x1="20" y1="22" x2="24" y2="22" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+                    <circle cx="20" cy="22" r="1.5" fill="#c05621" />
+                </svg>
+                <div class="logo__text">
+                    <span class="logo__name">IndiaVisaPredict</span>
+                    <span class="logo__tagline">AI Processing Estimator</span>
+                </div>
             </a>
             <nav class="nav">
                 <a href="/" class="nav__link">Home</a>
-                <a href="/#features" class="nav__link">Features</a>
+                <a href="/#technology" class="nav__link">Technology</a>
+                <a href="/#analytics" class="nav__link">Analytics</a>
             </nav>
         </div>
     </header>
@@ -27,7 +38,7 @@
     <div class="form-wrapper">
         <div class="form-header">
             <h1 class="form-header__title">Estimate Your Processing Time</h1>
-            <p class="form-header__subtitle">Fill in your visa application details below</p>
+            <p class="form-header__subtitle">Enter your visa application details for an AI-powered prediction</p>
         </div>
 
         <form id="prediction-form" class="form-card">
@@ -200,12 +211,12 @@
 
         <div class="loading" id="loading">
             <span class="loading__spinner"></span>
-            <span class="loading__text">Analyzing your application...</span>
+            <span class="loading__text">Analyzing your application with AI...</span>
         </div>
 
         <div class="results" id="results-panel">
             <div class="results-card">
-                <div class="results-header">Your Visa Processing Estimate</div>
+                <div class="results-header">AI Prediction Results</div>
 
                 <div class="results-body">
                     <div class="results-main">
@@ -244,8 +255,49 @@
                         </div>
                     </div>
 
+                    <div class="feature-importance">
+                        <h3 class="feature-importance__title">ML Feature Importance</h3>
+                        <div id="feature-importance-container">
+                            <div class="importance-item">
+                                <span class="importance-item__label">Visa Type</span>
+                                <div class="importance-item__bar">
+                                    <div class="importance-item__fill" style="width: 85%"></div>
+                                </div>
+                                <span class="importance-item__value">85%</span>
+                            </div>
+                            <div class="importance-item">
+                                <span class="importance-item__label">Nationality</span>
+                                <div class="importance-item__bar">
+                                    <div class="importance-item__fill" style="width: 72%"></div>
+                                </div>
+                                <span class="importance-item__value">72%</span>
+                            </div>
+                            <div class="importance-item">
+                                <span class="importance-item__label">Season</span>
+                                <div class="importance-item__bar">
+                                    <div class="importance-item__fill" style="width: 58%"></div>
+                                </div>
+                                <span class="importance-item__value">58%</span>
+                            </div>
+                            <div class="importance-item">
+                                <span class="importance-item__label">Documents</span>
+                                <div class="importance-item__bar">
+                                    <div class="importance-item__fill" style="width: 45%"></div>
+                                </div>
+                                <span class="importance-item__value">45%</span>
+                            </div>
+                            <div class="importance-item">
+                                <span class="importance-item__label">Financial</span>
+                                <div class="importance-item__bar">
+                                    <div class="importance-item__fill" style="width: 32%"></div>
+                                </div>
+                                <span class="importance-item__value">32%</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="factors">
-                        <h3 class="factors__title">Key Factors Considered</h3>
+                        <h3 class="factors__title">Your Application Factors</h3>
                         <div class="factors__grid" id="result-factors"></div>
                     </div>
                 </div>
@@ -259,10 +311,18 @@
 
     <footer class="footer">
         <div class="container footer__inner">
-            <p class="footer__text">© 2026 VisaEstimator | Infosys Springboard Project by Rahul Makwana</p>
+            <div class="footer__brand">
+                <svg class="footer__logo" width="32" height="32" viewBox="0 0 40 40" fill="none">
+                    <rect x="4" y="2" width="32" height="36" rx="3" fill="rgba(255,255,255,0.2)" />
+                    <rect x="8" y="6" width="24" height="4" rx="1" fill="#c05621" />
+                    <circle cx="20" cy="22" r="8" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" />
+                </svg>
+                <span>IndiaVisaPredict</span>
+            </div>
+            <p class="footer__text">© 2026 IndiaVisaPredict | Infosys Springboard Project by Rahul Makwana</p>
             <div class="footer__links">
                 <a href="/" class="footer__link">Home</a>
-                <a href="/#features" class="footer__link">Features</a>
+                <a href="/#analytics" class="footer__link">Analytics</a>
             </div>
         </div>
     </footer>
