@@ -150,7 +150,16 @@ async def get_options():
 
 
 # Serve frontend static files
-frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
+# Resolve the absolute path to the frontend folder
+_backend_dir = os.path.dirname(os.path.abspath(__file__))
+frontend_path = os.path.normpath(os.path.join(_backend_dir, "..", "frontend"))
+
+# Debug: print path on startup
+print(f"Looking for frontend at: {frontend_path}")
+print(f"Frontend exists: {os.path.exists(frontend_path)}")
+if os.path.exists(frontend_path):
+    print(f"Frontend files: {os.listdir(frontend_path)}")
+
 if os.path.exists(frontend_path):
     # Helper function to create response with no-cache headers
     def create_file_response(file_path: str, media_type: str = None):
