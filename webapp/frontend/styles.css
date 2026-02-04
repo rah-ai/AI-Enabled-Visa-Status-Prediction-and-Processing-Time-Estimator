@@ -854,9 +854,10 @@ button {
 .bar-chart {
   display: flex;
   align-items: flex-end;
-  gap: var(--space-2);
-  height: 180px;
-  padding-top: var(--space-4);
+  justify-content: space-around;
+  gap: var(--space-3);
+  height: 200px;
+  padding: var(--space-4) 0;
 }
 
 .bar-chart__item {
@@ -864,12 +865,15 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
+  justify-content: flex-end;
+  height: 100%;
+  gap: var(--space-1);
 }
 
 .bar-chart__bar {
   width: 100%;
-  max-width: 50px;
+  max-width: 40px;
+  min-height: 8px;
   background: var(--primary);
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   transition: height 0.8s ease;
@@ -883,6 +887,7 @@ button {
   font-size: 0.6875rem;
   color: var(--text-muted);
   text-align: center;
+  margin-top: var(--space-1);
 }
 
 .bar-chart__value {
@@ -1720,6 +1725,247 @@ button {
   }
 }
 
+/* ============================================
+   AI/ML VISUALIZATION SECTIONS
+   ============================================ */
+
+/* Section Title */
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--border);
+}
+
+/* Model Confidence Section */
+.model-confidence-section {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.confidence-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.confidence-gauge {
+  position: relative;
+  width: 140px;
+  height: 140px;
+}
+
+.confidence-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.confidence-circle {
+  transition: stroke-dashoffset 1.5s ease-out;
+}
+
+.confidence-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.confidence-value span {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.confidence-value small {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.confidence-details {
+  display: flex;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.confidence-stat {
+  text-align: center;
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+}
+
+.confidence-stat__value {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.confidence-stat__label {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* Similar Applications Section */
+.similar-apps-section {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.comparison-chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.comparison-item {
+  display: grid;
+  grid-template-columns: 140px 1fr 70px;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.comparison-label {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.comparison-bar-container {
+  height: 24px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.comparison-bar {
+  height: 100%;
+  border-radius: var(--radius-sm);
+  transition: width 1s ease-out;
+}
+
+.comparison-bar--you {
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+}
+
+.comparison-bar--visa {
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+}
+
+.comparison-bar--country {
+  background: linear-gradient(90deg, var(--success), #34d399);
+}
+
+.comparison-bar--overall {
+  background: linear-gradient(90deg, var(--text-muted), var(--text-secondary));
+}
+
+.comparison-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+/* AI Model Insights Section */
+.ai-insights-section {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--border);
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.insight-card {
+  text-align: center;
+  padding: var(--space-5);
+  background: var(--bg-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.insight-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.insight-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: var(--space-3);
+}
+
+.insight-icon--neural {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.2));
+  color: #8b5cf6;
+}
+
+.insight-icon--data {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(52, 211, 153, 0.2));
+  color: var(--success);
+}
+
+.insight-icon--time {
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.2), rgba(245, 158, 11, 0.2));
+  color: var(--accent);
+}
+
+.insight-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.insight-card p {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Responsive for new sections */
+@media (max-width: 640px) {
+  .confidence-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .confidence-details {
+    justify-content: center;
+  }
+
+  .comparison-item {
+    grid-template-columns: 1fr;
+    gap: var(--space-1);
+  }
+
+  .comparison-value {
+    text-align: left;
+  }
+
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
 
@@ -1732,5 +1978,471 @@ button {
 
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* ============================================
+   VISA INFO PAGE STYLES
+   ============================================ */
+
+/* Page Hero */
+.page-hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: var(--space-10) 0 var(--space-8);
+  text-align: center;
+}
+
+.page-hero__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  margin-bottom: var(--space-3);
+}
+
+.page-hero__subtitle {
+  font-size: 1.125rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto var(--space-4);
+}
+
+.page-hero__updated {
+  font-size: 0.875rem;
+  opacity: 0.7;
+  background: rgba(255, 255, 255, 0.1);
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+}
+
+/* Official Portal Section */
+.official-portal {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  color: white;
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+.official-portal h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-3);
+}
+
+.official-portal p {
+  opacity: 0.95;
+  margin-bottom: var(--space-5);
+}
+
+.portal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+.portal-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.portal-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.portal-link--primary {
+  background: white;
+  color: var(--primary);
+}
+
+.portal-link--primary:hover {
+  background: var(--bg-elevated);
+}
+
+/* Visa Types Grid */
+.visa-types-section {
+  margin-bottom: var(--space-8);
+}
+
+.visa-types-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-5);
+  color: var(--text-primary);
+}
+
+.visa-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.visa-type-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  transition: all 0.2s ease;
+}
+
+.visa-type-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-lg);
+}
+
+.visa-type-card h3 {
+  font-size: 1.125rem;
+  color: var(--primary);
+  margin-bottom: var(--space-2);
+}
+
+.visa-duration {
+  font-size: 0.875rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+.visa-type-card p {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.processing-time {
+  display: inline-block;
+  font-size: 0.8125rem;
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+}
+
+/* Countries Section */
+.countries-section {
+  margin-bottom: var(--space-8);
+}
+
+.countries-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: var(--space-3);
+  color: var(--text-primary);
+}
+
+.section-desc {
+  color: var(--text-muted);
+  margin-bottom: var(--space-5);
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-4);
+}
+
+.country-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.country-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.country-flag {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-2);
+}
+
+.country-card h3 {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.avg-time {
+  font-size: 0.8125rem;
+  color: var(--success);
+  font-weight: 500;
+  margin-bottom: var(--space-3);
+}
+
+.country-card a {
+  font-size: 0.8125rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.country-card a:hover {
+  text-decoration: underline;
+}
+
+/* Disclaimer */
+.disclaimer {
+  background: var(--bg-elevated);
+  border-left: 4px solid var(--warning);
+  padding: var(--space-5);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  margin-top: var(--space-6);
+}
+
+.disclaimer h3 {
+  font-size: 1rem;
+  color: var(--warning);
+  margin-bottom: var(--space-3);
+}
+
+.disclaimer p {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.last-updated {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+/* Active nav link */
+.nav__link--active {
+  color: var(--accent) !important;
+  font-weight: 600;
+}
+
+/* ============================================
+   PDF EXPORT / PRINT STYLES
+   ============================================ */
+
+.pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--primary);
+  color: white;
+  padding: var(--space-3) var(--space-5);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pdf-btn:hover {
+  background: var(--primary-dark);
+}
+
+.pdf-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* History Panel */
+.history-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-top: var(--space-6);
+}
+
+.history-panel h3 {
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.history-item__visa {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.history-item__date {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.history-item__days {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Language Selector */
+.lang-selector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: var(--space-4);
+}
+
+.lang-selector select {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: inherit;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+/* Print Styles */
+@media print {
+
+  .header,
+  .footer,
+  .theme-toggle,
+  .pdf-btn,
+  .btn--secondary,
+  .nav {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .results-panel {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+    break-inside: avoid;
+  }
+
+  .prediction-card,
+  .mini-stats,
+  .importance,
+  .factors,
+  .timeline-section {
+    break-inside: avoid;
+  }
+
+  .result-days {
+    color: #d97706 !important;
+  }
+}
+
+/* ============================================
+   MONTHLY TRENDS CHART
+   ============================================ */
+
+.trends-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-top: var(--space-6);
+}
+
+.trends-section h3 {
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.trends-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 150px;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+  border-bottom: 2px solid var(--border);
+}
+
+.trend-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.trend-bar__fill {
+  width: 100%;
+  max-width: 40px;
+  background: var(--primary-light);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: height 0.5s ease;
+}
+
+.trend-bar__fill--current {
+  background: var(--accent);
+}
+
+.trend-bar__label {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.trend-bar__value {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Responsive for visa info page */
+@media (max-width: 768px) {
+  .portal-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .countries-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .visa-types-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .countries-grid {
+    grid-template-columns: 1fr;
   }
 }

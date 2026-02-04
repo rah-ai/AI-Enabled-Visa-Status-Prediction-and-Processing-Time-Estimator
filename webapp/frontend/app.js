@@ -154,6 +154,15 @@ function displayResults(data) {
     // Timeline visualization
     displayTimeline(data.predicted_days, data.min_days, data.max_days);
 
+    // NEW: Animate model confidence gauge
+    animateConfidenceGauge();
+
+    // NEW: Update comparison chart with actual values
+    updateComparisonChart(data.predicted_days, data.visa_type_average, data.country_average);
+
+    // Save to history
+    saveToHistory(data);
+
     // Show results
     showResults();
 }
@@ -323,10 +332,185 @@ function setDefaultMonth() {
 }
 
 // ============================================
+// AI VISUALIZATION ANIMATIONS
+// ============================================
+
+// Animate the model confidence circular gauge
+function animateConfidenceGauge() {
+    const circle = document.getElementById('confidence-circle');
+    if (!circle) return;
+
+    // 77% accuracy - animate to show this
+    const accuracy = 77;
+    const circumference = 339.3; // 2 * PI * 54
+    const offset = circumference - (accuracy / 100) * circumference;
+
+    // Delay animation slightly for visual effect
+    setTimeout(() => {
+        circle.style.strokeDashoffset = offset;
+    }, 300);
+}
+
+// Update the comparison chart with actual prediction values
+function updateComparisonChart(yourEstimate, visaAvg, countryAvg) {
+    const overallAvg = 8.2; // Historical overall average
+    const maxValue = Math.max(yourEstimate, visaAvg, countryAvg, overallAvg, 15);
+
+    // Helper to set bar and value
+    const setBar = (barId, valueId, value) => {
+        const bar = document.getElementById(barId);
+        const valueEl = document.getElementById(valueId);
+        if (bar && valueEl) {
+            const percentage = (value / maxValue) * 100;
+            setTimeout(() => {
+                bar.style.width = percentage + '%';
+            }, 500);
+            valueEl.textContent = value.toFixed(1) + ' days';
+        }
+    };
+
+    setBar('your-estimate-bar', 'your-estimate-value', yourEstimate);
+    setBar('visa-avg-bar', 'visa-avg-value', visaAvg);
+    setBar('country-avg-bar', 'country-avg-value', countryAvg);
+    setBar('overall-avg-bar', 'overall-avg-value', overallAvg);
+}
+
+// ============================================
+// PDF EXPORT
+// ============================================
+function downloadPDF() {
+    // Use browser's print functionality to save as PDF
+    const originalTitle = document.title;
+    document.title = 'VisaChronos_Prediction_' + new Date().toISOString().split('T')[0];
+
+    // Hide elements that shouldn't be in PDF
+    const elementsToHide = document.querySelectorAll('.pdf-btn, .btn--outline, .history-panel, .trends-section');
+    elementsToHide.forEach(el => el.style.display = 'none');
+
+    window.print();
+
+    // Restore elements
+    elementsToHide.forEach(el => el.style.display = '');
+    document.title = originalTitle;
+}
+
+// ============================================
+// PREDICTION HISTORY
+// ============================================
+const HISTORY_KEY = 'visachronos_history';
+const MAX_HISTORY = 10;
+
+// Save prediction to history
+function saveToHistory(data) {
+    const history = getHistory();
+    const entry = {
+        id: Date.now(),
+        date: new Date().toLocaleString(),
+        visa_type: document.getElementById('visa_type')?.value || 'Unknown',
+        nationality: document.getElementById('nationality')?.value || 'Unknown',
+        predicted_days: data.predicted_days,
+        risk_level: data.risk_level,
+        approval_percentage: data.approval_percentage
+    };
+
+    history.unshift(entry);
+
+    // Keep only last MAX_HISTORY entries
+    if (history.length > MAX_HISTORY) {
+        history.pop();
+    }
+
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    renderHistory();
+}
+
+// Get history from localStorage
+function getHistory() {
+    try {
+        const data = localStorage.getItem(HISTORY_KEY);
+        return data ? JSON.parse(data) : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+// Render history in the UI
+function renderHistory() {
+    const historyList = document.getElementById('history-list');
+    if (!historyList) return;
+
+    const history = getHistory();
+
+    if (history.length === 0) {
+        historyList.innerHTML = `
+            <li class="history-item" style="color: var(--text-muted); font-style: italic;">
+                No predictions yet. Submit a prediction to see your history.
+            </li>
+        `;
+        return;
+    }
+
+    historyList.innerHTML = history.map(entry => `
+        <li class="history-item">
+            <div class="history-item__info">
+                <span class="history-item__visa">${entry.visa_type} - ${entry.nationality}</span>
+                <span class="history-item__date">${entry.date}</span>
+            </div>
+            <div class="history-item__days">${entry.predicted_days} days</div>
+        </li>
+    `).join('');
+}
+
+// Clear all history
+function clearHistory() {
+    if (confirm('Are you sure you want to clear your prediction history?')) {
+        localStorage.removeItem(HISTORY_KEY);
+        renderHistory();
+    }
+}
+
+// ============================================
+// MULTI-LANGUAGE SUPPORT (Basic)
+// ============================================
+const translations = {
+    en: {
+        title: 'Know Your Visa Processing Time',
+        submit: 'Get My Estimate',
+        reset: 'Try Another Estimate',
+        history: 'Your Prediction History',
+        trends: 'Monthly Processing Trends'
+    },
+    hi: {
+        title: 'अपना वीज़ा प्रोसेसिंग समय जानें',
+        submit: 'मेरा अनुमान प्राप्त करें',
+        reset: 'एक और अनुमान आज़माएं',
+        history: 'आपका पूर्वानुमान इतिहास',
+        trends: 'मासिक प्रोसेसिंग रुझान'
+    },
+    es: {
+        title: 'Conozca su tiempo de procesamiento de visa',
+        submit: 'Obtener mi estimación',
+        reset: 'Intentar otra estimación',
+        history: 'Tu historial de predicciones',
+        trends: 'Tendencias de procesamiento mensual'
+    }
+};
+
+let currentLang = localStorage.getItem('visachronos_lang') || 'en';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('visachronos_lang', lang);
+    // Note: Full implementation would update all text elements
+    // This is a foundation for future internationalization
+}
+
+// ============================================
 // INITIALIZE
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
     initTheme();
     initScrollReveal();
     setDefaultMonth();
+    renderHistory(); // Load prediction history
 });

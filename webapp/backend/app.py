@@ -209,6 +209,22 @@ if os.path.exists(frontend_path):
             os.path.join(frontend_path, "predict.html"),
             media_type="text/html"
         )
+    
+    @app.get("/visa-info")
+    async def serve_visa_info():
+        """Serve the visa information page"""
+        return create_file_response(
+            os.path.join(frontend_path, "visa-info.html"),
+            media_type="text/html"
+        )
+    
+    @app.get("/visa-info.html")
+    async def serve_visa_info_html():
+        """Serve the visa information page (with .html extension)"""
+        return create_file_response(
+            os.path.join(frontend_path, "visa-info.html"),
+            media_type="text/html"
+        )
 
 
 # Run with: uvicorn app:app --reload --port 8000
