@@ -506,6 +506,103 @@ function setLanguage(lang) {
 }
 
 // ============================================
+// CUSTOM VALIDATION (Premium UI)
+// ============================================
+function initCustomValidation() {
+    const form = document.getElementById('prediction-form');
+    if (!form) return;
+
+    // Add custom validation messages
+    const selects = form.querySelectorAll('select[required]');
+    const inputs = form.querySelectorAll('input[required]');
+
+    // Disable browser default validation UI
+    form.setAttribute('novalidate', 'true');
+
+    // Add validation message elements
+    [...selects, ...inputs].forEach(field => {
+        const group = field.closest('.form-group');
+        if (group && !group.querySelector('.validation-message')) {
+            const msg = document.createElement('div');
+            msg.className = 'validation-message';
+            msg.textContent = '⚠ Please fill this field';
+            group.appendChild(msg);
+        }
+
+        // Listen for changes
+        field.addEventListener('blur', function () {
+            validateField(this);
+        });
+
+        field.addEventListener('change', function () {
+            validateField(this);
+        });
+    });
+
+    // Custom form submit validation
+    form.addEventListener('submit', function (e) {
+        let isValid = true;
+
+        [...selects, ...inputs].forEach(field => {
+            if (!validateField(field)) {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            e.preventDefault();
+            // Shake animation on invalid fields
+            const errorFields = form.querySelectorAll('.form-group.error');
+            errorFields.forEach(field => {
+                field.style.animation = 'shake 0.4s ease';
+                setTimeout(() => field.style.animation = '', 400);
+            });
+        }
+    });
+}
+
+function validateField(field) {
+    const group = field.closest('.form-group');
+    if (!group) return true;
+
+    const isSelect = field.tagName === 'SELECT';
+    const isEmpty = isSelect
+        ? (field.value === '' || field.selectedIndex === 0)
+        : field.value.trim() === '';
+
+    if (field.required && isEmpty) {
+        group.classList.add('error');
+        const msg = group.querySelector('.validation-message');
+        if (msg) {
+            msg.textContent = isSelect
+                ? '⚠ Please select an option'
+                : '⚠ This field is required';
+        }
+        return false;
+    } else {
+        group.classList.remove('error');
+        return true;
+    }
+}
+
+// Add shake animation
+const shakeKeyframes = `
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+`;
+if (!document.getElementById('shake-style')) {
+    const style = document.createElement('style');
+    style.id = 'shake-style';
+    style.textContent = shakeKeyframes;
+    document.head.appendChild(style);
+}
+
+// ============================================
 // INITIALIZE
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
@@ -513,4 +610,5 @@ document.addEventListener('DOMContentLoaded', function () {
     initScrollReveal();
     setDefaultMonth();
     renderHistory(); // Load prediction history
+    initCustomValidation(); // Custom validation UI
 });
