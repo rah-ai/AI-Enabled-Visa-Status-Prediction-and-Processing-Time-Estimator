@@ -2549,26 +2549,10 @@ select:focus {
   border-color: var(--accent) !important;
   background-color: var(--bg-card) !important;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d97706' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
-  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
   outline: none;
 }
 
-/* Shimmer Animation for Select */
-.form-group::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
-  transition: width 0.4s ease;
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
-}
-
-.form-group:focus-within::after {
-  width: 100%;
-}
+/* Removed shimmer animation for cleaner look */
 
 /* Animated Placeholder Effect */
 .form-input::placeholder,
@@ -2577,26 +2561,7 @@ select option:first-child {
   font-style: italic;
 }
 
-/* Typing animation for placeholders */
-@keyframes shimmer-placeholder {
-  0% {
-    background-position: -200% 0;
-  }
-
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.form-group.loading .form-input,
-.form-group.loading select {
-  background: linear-gradient(90deg,
-      var(--bg-elevated) 25%,
-      var(--bg-card) 50%,
-      var(--bg-elevated) 75%);
-  background-size: 200% 100%;
-  animation: shimmer-placeholder 2s infinite;
-}
+/* Removed shimmer loading animation for cleaner look */
 
 /* Custom Validation Styling - NO MORE BORING YELLOW BOX! */
 .form-input:invalid:not(:placeholder-shown),
