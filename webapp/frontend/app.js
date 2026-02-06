@@ -644,6 +644,11 @@ function createCustomDropdown(nativeSelect) {
     const wrapper = document.createElement('div');
     wrapper.className = 'custom-select';
 
+    // Detect if this is a country/nationality dropdown
+    const selectId = nativeSelect.id || '';
+    const isCountrySelect = selectId.includes('nationality') || selectId.includes('country');
+    wrapper.dataset.hasFlags = isCountrySelect;
+
     // Get options from native select
     const options = Array.from(nativeSelect.options).slice(1); // Skip placeholder
     const placeholder = nativeSelect.options[0]?.text || 'Select...';
@@ -684,15 +689,20 @@ function createCustomDropdown(nativeSelect) {
         optionEl.className = 'custom-select__option';
         optionEl.dataset.value = opt.value;
 
-        const flag = countryFlags[opt.text] || countryFlags[opt.value] || '🌍';
-
-        optionEl.innerHTML = `
-            <span class="custom-select__option-flag">${flag}</span>
-            <span class="custom-select__option-text">${opt.text}</span>
-        `;
+        // Only add flag for country dropdowns
+        if (isCountrySelect) {
+            const flag = countryFlags[opt.text] || countryFlags[opt.value] || '';
+            optionEl.innerHTML = `
+                ${flag ? `<span class="custom-select__option-flag">${flag}</span>` : ''}
+                <span class="custom-select__option-text">${opt.text}</span>
+            `;
+        } else {
+            optionEl.innerHTML = `<span class="custom-select__option-text">${opt.text}</span>`;
+        }
 
         optionEl.addEventListener('click', () => {
-            selectOption(wrapper, nativeSelect, opt.value, opt.text, flag);
+            const flag = isCountrySelect ? (countryFlags[opt.text] || countryFlags[opt.value] || '') : '';
+            selectOption(wrapper, nativeSelect, opt.value, opt.text, flag, isCountrySelect);
         });
 
         optionsList.appendChild(optionEl);
@@ -701,7 +711,7 @@ function createCustomDropdown(nativeSelect) {
     // Add no results message
     const noResults = document.createElement('div');
     noResults.className = 'custom-select__no-results';
-    noResults.textContent = 'No countries found';
+    noResults.textContent = 'No results found';
     noResults.style.display = 'none';
     optionsList.appendChild(noResults);
 
@@ -755,23 +765,27 @@ function createCustomDropdown(nativeSelect) {
     if (nativeSelect.value) {
         const selectedOpt = nativeSelect.options[nativeSelect.selectedIndex];
         if (selectedOpt && selectedOpt.value) {
-            const flag = countryFlags[selectedOpt.text] || countryFlags[selectedOpt.value] || '🌍';
-            selectOption(wrapper, nativeSelect, selectedOpt.value, selectedOpt.text, flag, false);
+            const flag = isCountrySelect ? (countryFlags[selectedOpt.text] || countryFlags[selectedOpt.value] || '') : '';
+            selectOption(wrapper, nativeSelect, selectedOpt.value, selectedOpt.text, flag, isCountrySelect, false);
         }
     }
 }
 
-function selectOption(wrapper, nativeSelect, value, text, flag, closeDropdown = true) {
+function selectOption(wrapper, nativeSelect, value, text, flag, isCountrySelect, closeDropdown = true) {
     // Update native select
     nativeSelect.value = value;
     nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
 
     // Update trigger display
     const valueEl = wrapper.querySelector('.custom-select__value');
-    valueEl.innerHTML = `
-        <span class="custom-select__option-flag">${flag}</span>
-        <span>${text}</span>
-    `;
+    if (flag && isCountrySelect) {
+        valueEl.innerHTML = `
+            <span class="custom-select__option-flag">${flag}</span>
+            <span>${text}</span>
+        `;
+    } else {
+        valueEl.innerHTML = `<span>${text}</span>`;
+    }
 
     // Mark option as selected
     wrapper.querySelectorAll('.custom-select__option').forEach(opt => {
