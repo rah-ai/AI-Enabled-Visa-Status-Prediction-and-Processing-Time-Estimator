@@ -166,12 +166,6 @@
                 </div>
                 <div class="compare-selector__actions">
                     <button class="btn btn--primary" id="compare-btn" onclick="runComparison()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
-                            height="20">
-                            <path d="M9 19V6l12-3v13" />
-                            <circle cx="6" cy="18" r="3" />
-                            <circle cx="18" cy="16" r="3" />
-                        </svg>
                         Compare Countries
                     </button>
                 </div>
@@ -353,25 +347,21 @@
 
             insights.innerHTML = `
                 <div class="insight-card insight-card--fastest">
-                    <div class="insight-card__icon">🚀</div>
                     <h3 class="insight-card__title">Fastest Processing</h3>
                     <p class="insight-card__value">${fastest.flag} ${fastest.name}</p>
                     <p class="insight-card__detail">${fastest.avg} days average</p>
                 </div>
                 <div class="insight-card insight-card--slowest">
-                    <div class="insight-card__icon">🐌</div>
                     <h3 class="insight-card__title">Slowest Processing</h3>
                     <p class="insight-card__value">${slowest.flag} ${slowest.name}</p>
                     <p class="insight-card__detail">${slowest.avg} days average</p>
                 </div>
                 <div class="insight-card insight-card--diff">
-                    <div class="insight-card__icon">📊</div>
                     <h3 class="insight-card__title">Time Difference</h3>
                     <p class="insight-card__value">${diff.toFixed(1)} days</p>
                     <p class="insight-card__detail">Between fastest & slowest</p>
                 </div>
                 <div class="insight-card insight-card--risk">
-                    <div class="insight-card__icon">⚠️</div>
                     <h3 class="insight-card__title">Risk Overview</h3>
                     <p class="insight-card__value">${lowRisk} Low / ${highRisk} High</p>
                     <p class="insight-card__detail">Risk distribution</p>
