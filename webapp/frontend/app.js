@@ -792,6 +792,48 @@ function selectOption(wrapper, nativeSelect, value, text, flag, closeDropdown = 
 }
 
 // ============================================
+// RESET FORM FUNCTION
+// ============================================
+function resetForm() {
+    // Get the form element
+    const form = document.getElementById('prediction-form');
+    if (form) {
+        form.reset();
+    }
+
+    // Reset all custom dropdowns to their initial state
+    document.querySelectorAll('.custom-select').forEach(wrapper => {
+        const nativeSelect = wrapper.querySelector('select');
+        if (nativeSelect) {
+            // Reset to first option (usually placeholder)
+            nativeSelect.selectedIndex = 0;
+
+            // Update the custom dropdown display
+            const valueEl = wrapper.querySelector('.custom-select__value');
+            const placeholder = nativeSelect.options[0]?.text || 'Select...';
+            valueEl.innerHTML = `<span class="custom-select__placeholder">${placeholder}</span>`;
+
+            // Remove selected state from all options
+            wrapper.querySelectorAll('.custom-select__option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+        }
+    });
+
+    // Hide results panel if visible
+    const resultsPanel = document.getElementById('results-panel');
+    if (resultsPanel) {
+        resultsPanel.style.display = 'none';
+        resultsPanel.classList.remove('active');
+    }
+
+    // Scroll to top of form
+    if (form) {
+        form.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// ============================================
 // INITIALIZE
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
