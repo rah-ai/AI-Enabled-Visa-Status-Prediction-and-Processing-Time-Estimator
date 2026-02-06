@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Comparison | VisaChronos</title>
+    <meta name="description" content="Compare visa processing times across different countries">
+    <link rel="stylesheet" href="/styles.css?v=20260206">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header__inner">
+            <a href="/" class="logo">
+                <div class="logo__icon">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2" />
+                        <path d="M20 8v12l8 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        <text x="12" y="26" font-size="10" font-weight="bold" fill="currentColor">VC</text>
+                    </svg>
+                </div>
+                <div class="logo__text">
+                    <span class="logo__name">VisaChronos</span>
+                    <span class="logo__tagline">AI Visa Time Predictor</span>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="/" class="nav__link">Home</a>
+                <a href="/predict.html" class="nav__link">Predict</a>
+                <a href="/compare.html" class="nav__link nav__link--active">Compare</a>
+                <a href="/visa-info.html" class="nav__link">Visa Info</a>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+                    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5" />
+                        <path
+                            d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                    </svg>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-content compare-page">
+        <div class="container">
+            <div class="compare-header">
+                <h1 class="compare-header__title">🌍 Country Comparison Tool</h1>
+                <p class="compare-header__subtitle">Compare visa processing times across different countries
+                    side-by-side</p>
+            </div>
+
+            <!-- Country Selection -->
+            <div class="compare-selector">
+                <h2 class="compare-selector__title">Select Countries to Compare (2-4)</h2>
+                <div class="compare-selector__grid" id="country-selectors">
+                    <div class="compare-selector__item">
+                        <label class="form-label">Country 1 <span class="required">*</span></label>
+                        <select class="country-select" id="country1" required>
+                            <option value="">Select country...</option>
+                            <option value="USA">🇺🇸 United States</option>
+                            <option value="UK">🇬🇧 United Kingdom</option>
+                            <option value="Canada">🇨🇦 Canada</option>
+                            <option value="Australia">🇦🇺 Australia</option>
+                            <option value="Germany">🇩🇪 Germany</option>
+                            <option value="France">🇫🇷 France</option>
+                            <option value="Japan">🇯🇵 Japan</option>
+                            <option value="China">🇨🇳 China</option>
+                            <option value="UAE">🇦🇪 UAE</option>
+                            <option value="Singapore">🇸🇬 Singapore</option>
+                            <option value="Brazil">🇧🇷 Brazil</option>
+                            <option value="South Africa">🇿🇦 South Africa</option>
+                            <option value="Russia">🇷🇺 Russia</option>
+                            <option value="South Korea">🇰🇷 South Korea</option>
+                            <option value="Italy">🇮🇹 Italy</option>
+                            <option value="Spain">🇪🇸 Spain</option>
+                            <option value="Netherlands">🇳🇱 Netherlands</option>
+                            <option value="Switzerland">🇨🇭 Switzerland</option>
+                            <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
+                            <option value="Nigeria">🇳🇬 Nigeria</option>
+                        </select>
+                    </div>
+                    <div class="compare-selector__item">
+                        <label class="form-label">Country 2 <span class="required">*</span></label>
+                        <select class="country-select" id="country2" required>
+                            <option value="">Select country...</option>
+                            <option value="USA">🇺🇸 United States</option>
+                            <option value="UK">🇬🇧 United Kingdom</option>
+                            <option value="Canada">🇨🇦 Canada</option>
+                            <option value="Australia">🇦🇺 Australia</option>
+                            <option value="Germany">🇩🇪 Germany</option>
+                            <option value="France">🇫🇷 France</option>
+                            <option value="Japan">🇯🇵 Japan</option>
+                            <option value="China">🇨🇳 China</option>
+                            <option value="UAE">🇦🇪 UAE</option>
+                            <option value="Singapore">🇸🇬 Singapore</option>
+                            <option value="Brazil">🇧🇷 Brazil</option>
+                            <option value="South Africa">🇿🇦 South Africa</option>
+                            <option value="Russia">🇷🇺 Russia</option>
+                            <option value="South Korea">🇰🇷 South Korea</option>
+                            <option value="Italy">🇮🇹 Italy</option>
+                            <option value="Spain">🇪🇸 Spain</option>
+                            <option value="Netherlands">🇳🇱 Netherlands</option>
+                            <option value="Switzerland">🇨🇭 Switzerland</option>
+                            <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
+                            <option value="Nigeria">🇳🇬 Nigeria</option>
+                        </select>
+                    </div>
+                    <div class="compare-selector__item" id="country3-wrapper">
+                        <label class="form-label">Country 3 (Optional)</label>
+                        <select class="country-select" id="country3">
+                            <option value="">Select country...</option>
+                            <option value="USA">🇺🇸 United States</option>
+                            <option value="UK">🇬🇧 United Kingdom</option>
+                            <option value="Canada">🇨🇦 Canada</option>
+                            <option value="Australia">🇦🇺 Australia</option>
+                            <option value="Germany">🇩🇪 Germany</option>
+                            <option value="France">🇫🇷 France</option>
+                            <option value="Japan">🇯🇵 Japan</option>
+                            <option value="China">🇨🇳 China</option>
+                            <option value="UAE">🇦🇪 UAE</option>
+                            <option value="Singapore">🇸🇬 Singapore</option>
+                            <option value="Brazil">🇧🇷 Brazil</option>
+                            <option value="South Africa">🇿🇦 South Africa</option>
+                            <option value="Russia">🇷🇺 Russia</option>
+                            <option value="South Korea">🇰🇷 South Korea</option>
+                            <option value="Italy">🇮🇹 Italy</option>
+                            <option value="Spain">🇪🇸 Spain</option>
+                            <option value="Netherlands">🇳🇱 Netherlands</option>
+                            <option value="Switzerland">🇨🇭 Switzerland</option>
+                            <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
+                            <option value="Nigeria">🇳🇬 Nigeria</option>
+                        </select>
+                    </div>
+                    <div class="compare-selector__item" id="country4-wrapper">
+                        <label class="form-label">Country 4 (Optional)</label>
+                        <select class="country-select" id="country4">
+                            <option value="">Select country...</option>
+                            <option value="USA">🇺🇸 United States</option>
+                            <option value="UK">🇬🇧 United Kingdom</option>
+                            <option value="Canada">🇨🇦 Canada</option>
+                            <option value="Australia">🇦🇺 Australia</option>
+                            <option value="Germany">🇩🇪 Germany</option>
+                            <option value="France">🇫🇷 France</option>
+                            <option value="Japan">🇯🇵 Japan</option>
+                            <option value="China">🇨🇳 China</option>
+                            <option value="UAE">🇦🇪 UAE</option>
+                            <option value="Singapore">🇸🇬 Singapore</option>
+                            <option value="Brazil">🇧🇷 Brazil</option>
+                            <option value="South Africa">🇿🇦 South Africa</option>
+                            <option value="Russia">🇷🇺 Russia</option>
+                            <option value="South Korea">🇰🇷 South Korea</option>
+                            <option value="Italy">🇮🇹 Italy</option>
+                            <option value="Spain">🇪🇸 Spain</option>
+                            <option value="Netherlands">🇳🇱 Netherlands</option>
+                            <option value="Switzerland">🇨🇭 Switzerland</option>
+                            <option value="Saudi Arabia">🇸🇦 Saudi Arabia</option>
+                            <option value="Nigeria">🇳🇬 Nigeria</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="compare-selector__actions">
+                    <button class="btn btn--primary" id="compare-btn" onclick="runComparison()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"
+                            height="20">
+                            <path d="M9 19V6l12-3v13" />
+                            <circle cx="6" cy="18" r="3" />
+                            <circle cx="18" cy="16" r="3" />
+                        </svg>
+                        Compare Countries
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Section (Hidden initially) -->
+            <div class="compare-results" id="compare-results" style="display: none;">
+
+                <!-- Bar Chart Visualization -->
+                <div class="compare-chart-section">
+                    <h2 class="compare-section__title">📊 Processing Time Comparison</h2>
+                    <div class="compare-chart" id="compare-chart">
+                        <!-- Bars will be inserted here by JS -->
+                    </div>
+                    <p class="compare-chart__note">* Average processing days for tourist visa applications</p>
+                </div>
+
+                <!-- Detailed Stats Table -->
+                <div class="compare-table-section">
+                    <h2 class="compare-section__title">📋 Detailed Statistics</h2>
+                    <div class="compare-table-wrapper">
+                        <table class="compare-table" id="compare-table">
+                            <thead>
+                                <tr>
+                                    <th>Country</th>
+                                    <th>Avg. Days</th>
+                                    <th>Min Days</th>
+                                    <th>Max Days</th>
+                                    <th>Risk Level</th>
+                                    <th>Peak Season</th>
+                                </tr>
+                            </thead>
+                            <tbody id="compare-table-body">
+                                <!-- Rows will be inserted here by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Insights -->
+                <div class="compare-insights">
+                    <h2 class="compare-section__title">💡 Key Insights</h2>
+                    <div class="compare-insights__grid" id="compare-insights">
+                        <!-- Insights will be inserted here by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <div class="footer__brand">
+                <span class="footer__logo">VisaChronos</span>
+                <span class="footer__copy">© 2026 AI-Powered Visa Processing Estimator</span>
+            </div>
+            <div class="footer__links">
+                <a href="/" class="footer__link">Home</a>
+                <a href="/predict.html" class="footer__link">Get Estimate</a>
+                <a href="/compare.html" class="footer__link">Compare</a>
+                <a href="/visa-info.html" class="footer__link">Visa Info</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/app.js?v=20260206"></script>
+    <script>
+        // Country data (simulated - based on typical processing times)
+        const countryData = {
+            'USA': { avg: 8.5, min: 5, max: 15, risk: 'Medium', peak: 'Jun-Aug', flag: '🇺🇸' },
+            'UK': { avg: 7.2, min: 4, max: 12, risk: 'Low', peak: 'Jul-Sep', flag: '🇬🇧' },
+            'Canada': { avg: 10.1, min: 6, max: 18, risk: 'Medium', peak: 'May-Jul', flag: '🇨🇦' },
+            'Australia': { avg: 9.3, min: 5, max: 16, risk: 'Low', peak: 'Dec-Feb', flag: '🇦🇺' },
+            'Germany': { avg: 6.8, min: 4, max: 11, risk: 'Low', peak: 'Jun-Aug', flag: '🇩🇪' },
+            'France': { avg: 7.5, min: 4, max: 13, risk: 'Low', peak: 'Jun-Aug', flag: '🇫🇷' },
+            'Japan': { avg: 5.2, min: 3, max: 9, risk: 'Low', peak: 'Mar-Apr', flag: '🇯🇵' },
+            'China': { avg: 11.5, min: 7, max: 20, risk: 'High', peak: 'Jan-Feb', flag: '🇨🇳' },
+            'UAE': { avg: 4.8, min: 2, max: 8, risk: 'Low', peak: 'Nov-Dec', flag: '🇦🇪' },
+            'Singapore': { avg: 4.5, min: 2, max: 7, risk: 'Low', peak: 'Dec-Jan', flag: '🇸🇬' },
+            'Brazil': { avg: 9.8, min: 6, max: 17, risk: 'Medium', peak: 'Dec-Feb', flag: '🇧🇷' },
+            'South Africa': { avg: 8.2, min: 5, max: 14, risk: 'Medium', peak: 'Dec-Jan', flag: '🇿🇦' },
+            'Russia': { avg: 12.5, min: 8, max: 22, risk: 'High', peak: 'Jun-Aug', flag: '🇷🇺' },
+            'South Korea': { avg: 5.8, min: 3, max: 10, risk: 'Low', peak: 'Mar-May', flag: '🇰🇷' },
+            'Italy': { avg: 7.0, min: 4, max: 12, risk: 'Low', peak: 'Jun-Aug', flag: '🇮🇹' },
+            'Spain': { avg: 7.3, min: 4, max: 12, risk: 'Low', peak: 'Jun-Aug', flag: '🇪🇸' },
+            'Netherlands': { avg: 6.5, min: 4, max: 11, risk: 'Low', peak: 'Jun-Aug', flag: '🇳🇱' },
+            'Switzerland': { avg: 6.2, min: 3, max: 10, risk: 'Low', peak: 'Jul-Aug', flag: '🇨🇭' },
+            'Saudi Arabia': { avg: 8.0, min: 5, max: 14, risk: 'Medium', peak: 'Ramadan', flag: '🇸🇦' },
+            'Nigeria': { avg: 13.5, min: 9, max: 25, risk: 'High', peak: 'Dec-Jan', flag: '🇳🇬' }
+        };
+
+        function runComparison() {
+            const country1 = document.getElementById('country1').value;
+            const country2 = document.getElementById('country2').value;
+            const country3 = document.getElementById('country3').value;
+            const country4 = document.getElementById('country4').value;
+
+            // Validate at least 2 countries
+            if (!country1 || !country2) {
+                alert('Please select at least 2 countries to compare');
+                return;
+            }
+
+            // Check for duplicates
+            const selected = [country1, country2, country3, country4].filter(c => c);
+            if (new Set(selected).size !== selected.length) {
+                alert('Please select different countries for comparison');
+                return;
+            }
+
+            // Get data for selected countries
+            const countries = selected.map(c => ({
+                name: c,
+                ...countryData[c]
+            }));
+
+            // Render results
+            renderChart(countries);
+            renderTable(countries);
+            renderInsights(countries);
+
+            // Show results section
+            document.getElementById('compare-results').style.display = 'block';
+            document.getElementById('compare-results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function renderChart(countries) {
+            const chart = document.getElementById('compare-chart');
+            const maxAvg = Math.max(...countries.map(c => c.avg));
+
+            chart.innerHTML = countries.map(c => {
+                const widthPercent = (c.avg / maxAvg) * 100;
+                const color = c.risk === 'Low' ? 'var(--success)' :
+                    c.risk === 'Medium' ? 'var(--accent)' : 'var(--danger)';
+                return `
+                    <div class="compare-bar">
+                        <div class="compare-bar__label">${c.flag} ${c.name}</div>
+                        <div class="compare-bar__track">
+                            <div class="compare-bar__fill" style="width: ${widthPercent}%; background: ${color};">
+                                <span class="compare-bar__value">${c.avg} days</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTable(countries) {
+            const tbody = document.getElementById('compare-table-body');
+
+            tbody.innerHTML = countries.map(c => {
+                const riskClass = c.risk === 'Low' ? 'risk-low' :
+                    c.risk === 'Medium' ? 'risk-medium' : 'risk-high';
+                return `
+                    <tr>
+                        <td><strong>${c.flag} ${c.name}</strong></td>
+                        <td>${c.avg}</td>
+                        <td>${c.min}</td>
+                        <td>${c.max}</td>
+                        <td><span class="risk-badge ${riskClass}">${c.risk}</span></td>
+                        <td>${c.peak}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderInsights(countries) {
+            const insights = document.getElementById('compare-insights');
+
+            // Find fastest and slowest
+            const sorted = [...countries].sort((a, b) => a.avg - b.avg);
+            const fastest = sorted[0];
+            const slowest = sorted[sorted.length - 1];
+            const diff = slowest.avg - fastest.avg;
+
+            // Count risk levels
+            const lowRisk = countries.filter(c => c.risk === 'Low').length;
+            const highRisk = countries.filter(c => c.risk === 'High').length;
+
+            insights.innerHTML = `
+                <div class="insight-card insight-card--fastest">
+                    <div class="insight-card__icon">🚀</div>
+                    <h3 class="insight-card__title">Fastest Processing</h3>
+                    <p class="insight-card__value">${fastest.flag} ${fastest.name}</p>
+                    <p class="insight-card__detail">${fastest.avg} days average</p>
+                </div>
+                <div class="insight-card insight-card--slowest">
+                    <div class="insight-card__icon">🐌</div>
+                    <h3 class="insight-card__title">Slowest Processing</h3>
+                    <p class="insight-card__value">${slowest.flag} ${slowest.name}</p>
+                    <p class="insight-card__detail">${slowest.avg} days average</p>
+                </div>
+                <div class="insight-card insight-card--diff">
+                    <div class="insight-card__icon">📊</div>
+                    <h3 class="insight-card__title">Time Difference</h3>
+                    <p class="insight-card__value">${diff.toFixed(1)} days</p>
+                    <p class="insight-card__detail">Between fastest & slowest</p>
+                </div>
+                <div class="insight-card insight-card--risk">
+                    <div class="insight-card__icon">⚠️</div>
+                    <h3 class="insight-card__title">Risk Overview</h3>
+                    <p class="insight-card__value">${lowRisk} Low / ${highRisk} High</p>
+                    <p class="insight-card__detail">Risk distribution</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+
+</html>

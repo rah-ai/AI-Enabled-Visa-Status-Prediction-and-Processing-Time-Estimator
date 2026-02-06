@@ -225,6 +225,22 @@ if os.path.exists(frontend_path):
             os.path.join(frontend_path, "visa-info.html"),
             media_type="text/html"
         )
+    
+    @app.get("/compare")
+    async def serve_compare():
+        """Serve the country comparison page"""
+        return create_file_response(
+            os.path.join(frontend_path, "compare.html"),
+            media_type="text/html"
+        )
+    
+    @app.get("/compare.html")
+    async def serve_compare_html():
+        """Serve the country comparison page (with .html extension)"""
+        return create_file_response(
+            os.path.join(frontend_path, "compare.html"),
+            media_type="text/html"
+        )
 
 
 # Run with: uvicorn app:app --reload --port 8000
