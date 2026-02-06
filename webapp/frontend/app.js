@@ -603,6 +603,191 @@ if (!document.getElementById('shake-style')) {
 }
 
 // ============================================
+// CUSTOM STYLED DROPDOWN
+// ============================================
+const countryFlags = {
+    'Afghanistan': '🇦🇫', 'Argentina': '🇦🇷', 'Australia': '🇦🇺', 'Bangladesh': '🇧🇩',
+    'Belgium': '🇧🇪', 'Brazil': '🇧🇷', 'Canada': '🇨🇦', 'China': '🇨🇳',
+    'Egypt': '🇪🇬', 'France': '🇫🇷', 'Germany': '🇩🇪', 'Indonesia': '🇮🇩',
+    'Iran': '🇮🇷', 'Iraq': '🇮🇶', 'Israel': '🇮🇱', 'Italy': '🇮🇹',
+    'Japan': '🇯🇵', 'Kenya': '🇰🇪', 'Malaysia': '🇲🇾', 'Mexico': '🇲🇽',
+    'Nepal': '🇳🇵', 'Netherlands': '🇳🇱', 'Nigeria': '🇳🇬', 'Pakistan': '🇵🇰',
+    'Philippines': '🇵🇭', 'Poland': '🇵🇱', 'Russia': '🇷🇺', 'Saudi Arabia': '🇸🇦',
+    'Singapore': '🇸🇬', 'South Africa': '🇿🇦', 'South Korea': '🇰🇷', 'Spain': '🇪🇸',
+    'Sri Lanka': '🇱🇰', 'Sweden': '🇸🇪', 'Switzerland': '🇨🇭', 'Thailand': '🇹🇭',
+    'Turkey': '🇹🇷', 'UAE': '🇦🇪', 'UK': '🇬🇧', 'USA': '🇺🇸',
+    'Ukraine': '🇺🇦', 'Vietnam': '🇻🇳', 'United States': '🇺🇸', 'United Kingdom': '🇬🇧'
+};
+
+function initCustomDropdowns() {
+    const selects = document.querySelectorAll('select[data-custom-select]');
+
+    selects.forEach(select => {
+        createCustomDropdown(select);
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.custom-select')) {
+            document.querySelectorAll('.custom-select.open').forEach(el => {
+                el.classList.remove('open');
+            });
+        }
+    });
+}
+
+function createCustomDropdown(nativeSelect) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'custom-select';
+
+    // Get options from native select
+    const options = Array.from(nativeSelect.options).slice(1); // Skip placeholder
+    const placeholder = nativeSelect.options[0]?.text || 'Select...';
+
+    // Create trigger button
+    const trigger = document.createElement('div');
+    trigger.className = 'custom-select__trigger';
+    trigger.innerHTML = `
+        <span class="custom-select__value">
+            <span class="custom-select__placeholder">${placeholder}</span>
+        </span>
+        <svg class="custom-select__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+        </svg>
+    `;
+
+    // Create dropdown panel
+    const dropdown = document.createElement('div');
+    dropdown.className = 'custom-select__dropdown';
+
+    // Create search box
+    const searchBox = document.createElement('div');
+    searchBox.className = 'custom-select__search';
+    searchBox.innerHTML = `
+        <svg class="custom-select__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input type="text" class="custom-select__search-input" placeholder="Search...">
+    `;
+
+    // Create options list
+    const optionsList = document.createElement('div');
+    optionsList.className = 'custom-select__options';
+
+    options.forEach(opt => {
+        const optionEl = document.createElement('div');
+        optionEl.className = 'custom-select__option';
+        optionEl.dataset.value = opt.value;
+
+        const flag = countryFlags[opt.text] || countryFlags[opt.value] || '🌍';
+
+        optionEl.innerHTML = `
+            <span class="custom-select__option-flag">${flag}</span>
+            <span class="custom-select__option-text">${opt.text}</span>
+        `;
+
+        optionEl.addEventListener('click', () => {
+            selectOption(wrapper, nativeSelect, opt.value, opt.text, flag);
+        });
+
+        optionsList.appendChild(optionEl);
+    });
+
+    // Add no results message
+    const noResults = document.createElement('div');
+    noResults.className = 'custom-select__no-results';
+    noResults.textContent = 'No countries found';
+    noResults.style.display = 'none';
+    optionsList.appendChild(noResults);
+
+    dropdown.appendChild(searchBox);
+    dropdown.appendChild(optionsList);
+
+    wrapper.appendChild(trigger);
+    wrapper.appendChild(dropdown);
+
+    // Hide native select but keep for form submission
+    nativeSelect.classList.add('native-select');
+    nativeSelect.parentNode.insertBefore(wrapper, nativeSelect);
+    wrapper.appendChild(nativeSelect);
+
+    // Toggle dropdown on trigger click
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        // Close other dropdowns
+        document.querySelectorAll('.custom-select.open').forEach(el => {
+            if (el !== wrapper) el.classList.remove('open');
+        });
+
+        wrapper.classList.toggle('open');
+
+        if (wrapper.classList.contains('open')) {
+            const searchInput = searchBox.querySelector('.custom-select__search-input');
+            setTimeout(() => searchInput.focus(), 100);
+        }
+    });
+
+    // Search functionality
+    const searchInput = searchBox.querySelector('.custom-select__search-input');
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        let hasResults = false;
+
+        optionsList.querySelectorAll('.custom-select__option').forEach(opt => {
+            const text = opt.querySelector('.custom-select__option-text').textContent.toLowerCase();
+            const matches = text.includes(query);
+            opt.classList.toggle('hidden', !matches);
+            if (matches) hasResults = true;
+        });
+
+        noResults.style.display = hasResults ? 'none' : 'block';
+    });
+
+    searchInput.addEventListener('click', (e) => e.stopPropagation());
+
+    // Set initial value if native select has one
+    if (nativeSelect.value) {
+        const selectedOpt = nativeSelect.options[nativeSelect.selectedIndex];
+        if (selectedOpt && selectedOpt.value) {
+            const flag = countryFlags[selectedOpt.text] || countryFlags[selectedOpt.value] || '🌍';
+            selectOption(wrapper, nativeSelect, selectedOpt.value, selectedOpt.text, flag, false);
+        }
+    }
+}
+
+function selectOption(wrapper, nativeSelect, value, text, flag, closeDropdown = true) {
+    // Update native select
+    nativeSelect.value = value;
+    nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+
+    // Update trigger display
+    const valueEl = wrapper.querySelector('.custom-select__value');
+    valueEl.innerHTML = `
+        <span class="custom-select__option-flag">${flag}</span>
+        <span>${text}</span>
+    `;
+
+    // Mark option as selected
+    wrapper.querySelectorAll('.custom-select__option').forEach(opt => {
+        opt.classList.toggle('selected', opt.dataset.value === value);
+    });
+
+    // Close dropdown
+    if (closeDropdown) {
+        wrapper.classList.remove('open');
+    }
+
+    // Clear search
+    const searchInput = wrapper.querySelector('.custom-select__search-input');
+    if (searchInput) {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+    }
+}
+
+// ============================================
 // INITIALIZE
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
@@ -611,4 +796,5 @@ document.addEventListener('DOMContentLoaded', function () {
     setDefaultMonth();
     renderHistory(); // Load prediction history
     initCustomValidation(); // Custom validation UI
+    initCustomDropdowns(); // Custom styled dropdowns
 });
