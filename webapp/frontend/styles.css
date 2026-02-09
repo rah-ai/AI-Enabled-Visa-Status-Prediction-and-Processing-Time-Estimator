@@ -974,12 +974,11 @@ button {
   margin: 0 auto var(--space-4);
   position: relative;
   z-index: 1;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .step:hover .step__number {
-  transform: scale(1.1);
-  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.4);
+  transform: none;
+  box-shadow: none;
 }
 
 .step__title {
@@ -1940,7 +1939,7 @@ button {
   margin-bottom: var(--space-2);
 }
 
-.insight-card p {
+s.insight-card p {
   font-size: 0.8125rem;
   color: var(--text-muted);
   line-height: 1.5;
@@ -3269,14 +3268,19 @@ select option:focus {
   height: 0;
   pointer-events: none;
 }
+
 /* Force remove glow/shadow from buttons in light theme */
-body:not([data-theme='dark']) .btn, body:not([data-theme='dark']) button {
-    box-shadow: none !important;
-    animation: none !important;
-    filter: none !important;
+body:not([data-theme='dark']) .btn,
+body:not([data-theme='dark']) button {
+  box-shadow: none !important;
+  animation: none !important;
+  filter: none !important;
 }
 
-body:not([data-theme='dark']) .btn:hover, body:not([data-theme='dark']) button:hover, body:not([data-theme='dark']) .btn:focus, body:not([data-theme='dark']) button:focus {
-    box-shadow: none !important;
-    filter: none !important;
+body:not([data-theme='dark']) .btn:hover,
+body:not([data-theme='dark']) button:hover,
+body:not([data-theme='dark']) .btn:focus,
+body:not([data-theme='dark']) button:focus {
+  box-shadow: none !important;
+  filter: none !important;
 }
