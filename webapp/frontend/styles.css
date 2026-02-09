@@ -3269,3 +3269,14 @@ select option:focus {
   height: 0;
   pointer-events: none;
 }
+/* Force remove glow/shadow from buttons in light theme */
+body:not([data-theme='dark']) .btn, body:not([data-theme='dark']) button {
+    box-shadow: none !important;
+    animation: none !important;
+    filter: none !important;
+}
+
+body:not([data-theme='dark']) .btn:hover, body:not([data-theme='dark']) button:hover, body:not([data-theme='dark']) .btn:focus, body:not([data-theme='dark']) button:focus {
+    box-shadow: none !important;
+    filter: none !important;
+}
