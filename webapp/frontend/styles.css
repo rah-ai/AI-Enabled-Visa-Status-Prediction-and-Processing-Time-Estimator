@@ -3486,7 +3486,7 @@ body:not([data-theme='dark']) button:focus {
 
 .whatif-card {
   display: grid;
-  grid-template-columns: 40px 1fr 80px;
+  grid-template-columns: 1fr 80px;
   align-items: center;
   gap: 16px;
   background: var(--card-bg);

@@ -1136,7 +1136,6 @@ async function runWhatIfAnalysis(formData, currentResult) {
         const diffColor = s.isCurrent ? 'color:var(--accent)' : (diff < 0 ? 'color:#22c55e' : 'color:#ef4444');
 
         html += `<div class="whatif-card ${cardClass}">
-            <div class="whatif-icon whatif-icon--${s.iconClass}">${s.icon}</div>
             <div class="whatif-info">
                 <h4>${s.name}</h4>
                 <p>${s.desc}</p>
