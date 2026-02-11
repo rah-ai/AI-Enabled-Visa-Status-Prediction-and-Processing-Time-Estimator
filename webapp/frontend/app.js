@@ -7,6 +7,7 @@
 
 // API Configuration
 const API_BASE = '';
+let lastFormData = null; // Store last form submission for What-If / Optimal Month
 
 // ============================================
 // THEME TOGGLE
@@ -92,6 +93,7 @@ if (form) {
             express_processing: document.getElementById('express_processing').checked,
             application_month: parseInt(document.getElementById('application_month').value) || 1
         };
+        lastFormData = { ...formData };
 
         try {
             const response = await fetch(API_BASE + '/api/predict', {
@@ -165,6 +167,12 @@ function displayResults(data) {
 
     // Show results
     showResults();
+
+    // NEW: AI-powered features
+    generateAISummary(data, lastFormData);
+    renderWaterfallChart(data);
+    runWhatIfAnalysis(lastFormData, data);
+    findOptimalMonth(lastFormData);
 }
 
 // Update the risk gauge bar
@@ -848,11 +856,382 @@ function resetForm() {
 }
 
 // ============================================
+// BACK TO TOP BUTTON
+// ============================================
+function initBackToTop() {
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
+
+    window.addEventListener('scroll', function () {
+        if (window.scrollY > 300) {
+            btn.classList.add('visible');
+        } else {
+            btn.classList.remove('visible');
+        }
+    });
+
+    btn.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// ============================================
+// ANIMATED COUNTERS (Stats Bar)
+// ============================================
+function initAnimatedCounters() {
+    const statValues = document.querySelectorAll('.stat__value');
+    if (statValues.length === 0) return;
+
+    const animateCounter = (el) => {
+        const text = el.textContent.trim();
+        // Extract number and suffix (e.g. "2,000+" → 2000, "+", or "77%" → 77, "%")
+        const match = text.match(/^([\d,]+)(.*)/);
+        if (!match) return;
+
+        const target = parseInt(match[1].replace(/,/g, ''));
+        const suffix = match[2]; // "+", "%", etc.
+        const hasComma = match[1].includes(',');
+        const duration = 1500;
+        const start = performance.now();
+
+        el.textContent = '0' + suffix;
+
+        const step = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease-out curve for smooth deceleration
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
+
+            if (hasComma) {
+                el.textContent = current.toLocaleString() + suffix;
+            } else {
+                el.textContent = current + suffix;
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            }
+        };
+
+        requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const stats = entry.target.querySelectorAll('.stat__value');
+                stats.forEach((stat, i) => {
+                    setTimeout(() => animateCounter(stat), i * 150);
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    const statsBar = document.querySelector('.stats-bar');
+    if (statsBar) observer.observe(statsBar);
+}
+
+// ============================================
+// AI-GENERATED NATURAL LANGUAGE SUMMARY
+// ============================================
+function generateAISummary(data, formData) {
+    const section = document.getElementById('ai-summary-section');
+    const textEl = document.getElementById('ai-summary-text');
+    if (!section || !textEl || !formData) return;
+
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const month = monthNames[(formData.application_month || 1) - 1];
+    const visa = formData.visa_type || 'Tourist';
+    const country = formData.nationality || 'Unknown';
+    const days = data.predicted_days;
+    const minD = data.min_days;
+    const maxD = data.max_days;
+    const risk = data.risk_level;
+    const approval = data.approval_percentage;
+    const countryAvg = data.country_average;
+    const visaAvg = data.visa_type_average;
+
+    let comparison = '';
+    if (days < visaAvg) {
+        const pct = Math.round(((visaAvg - days) / visaAvg) * 100);
+        comparison = `This is <strong>${pct}% faster</strong> than the average ${visa} visa processing time of ${visaAvg} days.`;
+    } else if (days > visaAvg) {
+        const pct = Math.round(((days - visaAvg) / visaAvg) * 100);
+        comparison = `This is <strong>${pct}% slower</strong> than the average ${visa} visa processing time of ${visaAvg} days.`;
+    } else {
+        comparison = `This matches the average ${visa} visa processing time.`;
+    }
+
+    let seasonNote = '';
+    const peakMonths = [10, 11, 3, 4]; // Oct, Nov, Mar, Apr
+    if (peakMonths.includes(formData.application_month)) {
+        seasonNote = ` Applying in <strong>${month}</strong> falls within peak processing season, which may contribute to slightly longer wait times.`;
+    } else {
+        seasonNote = ` Applying in <strong>${month}</strong> is outside peak season, which generally results in faster processing.`;
+    }
+
+    let riskNote = '';
+    if (risk === 'Low') {
+        riskNote = ' Your application has been assessed as <strong>low risk</strong>, indicating strong documentation and favorable profile characteristics.';
+    } else if (risk === 'Medium') {
+        riskNote = ' Your application has a <strong>moderate risk</strong> profile. Consider ensuring all supporting documents are complete for the best outcome.';
+    } else {
+        riskNote = ' Your application shows <strong>elevated risk factors</strong>. We recommend double-checking all documentation and financial proofs before submission.';
+    }
+
+    const summary = `Your <strong>${visa}</strong> visa application from <strong>${country}</strong> has an estimated processing time of <strong>${days} days</strong> (range: ${minD}–${maxD} days), with a <strong>${approval}% approval likelihood</strong>. ${comparison}${seasonNote}${riskNote} Compared to the country average of ${countryAvg} days for ${country}, your estimate is ${days < countryAvg ? 'better' : days > countryAvg ? 'above average' : 'on par'}.`;
+
+    textEl.innerHTML = summary;
+    section.style.display = 'block';
+}
+
+// ============================================
+// WATERFALL CHART — FEATURE CONTRIBUTION
+// ============================================
+function renderWaterfallChart(data) {
+    const section = document.getElementById('waterfall-section');
+    const chart = document.getElementById('waterfall-chart');
+    if (!section || !chart) return;
+
+    const baseline = 8.2; // overall average
+    const predicted = data.predicted_days;
+
+    // Calculate factor contributions based on the prediction factors
+    const factors = [
+        { label: 'Baseline Avg', value: 0, isBaseline: true },
+        { label: 'Visa Type', value: data.visa_type_average - baseline },
+        { label: 'Nationality', value: data.country_average - baseline },
+        { label: 'Season', value: data.is_peak_season ? 1.2 : -0.8 },
+        { label: 'Documents', value: data.factors?.documents_complete === 'Complete' ? -0.6 : 1.4 },
+        { label: 'Express', value: data.factors?.express === 'Yes' ? -2.5 : 0 },
+        { label: 'Sponsor', value: data.factors?.sponsor === 'Yes' ? -0.5 : 0.3 },
+        { label: 'Risk Level', value: data.risk_score > 60 ? 1.0 : data.risk_score > 30 ? 0.2 : -0.5 }
+    ];
+
+    // Normalize so they sum to predicted - baseline
+    const rawSum = factors.slice(1).reduce((s, f) => s + f.value, 0);
+    const targetDiff = predicted - baseline;
+    const scale = rawSum !== 0 ? targetDiff / rawSum : 1;
+    factors.slice(1).forEach(f => f.value = Math.round(f.value * scale * 10) / 10);
+
+    const maxAbsVal = Math.max(3, ...factors.map(f => Math.abs(f.value)));
+
+    let html = '';
+
+    // Baseline row
+    html += `<div class="waterfall-row">
+        <div class="waterfall-label">Baseline</div>
+        <div class="waterfall-bar-container">
+            <div class="waterfall-bar-baseline" style="left:50%"></div>
+        </div>
+        <div class="waterfall-value">${baseline.toFixed(1)}d</div>
+    </div>`;
+
+    // Factor rows
+    factors.slice(1).forEach(f => {
+        if (f.value === 0) return;
+        const isPos = f.value > 0;
+        const barWidth = Math.min(45, (Math.abs(f.value) / maxAbsVal) * 45);
+        const barLeft = isPos ? 50 : 50 - barWidth;
+        const cls = isPos ? 'positive' : 'negative';
+        const sign = isPos ? '+' : '';
+
+        html += `<div class="waterfall-row">
+            <div class="waterfall-label">${f.label}</div>
+            <div class="waterfall-bar-container">
+                <div class="waterfall-bar-baseline" style="left:50%"></div>
+                <div class="waterfall-bar waterfall-bar--${cls}" style="left:${barLeft}%;width:${barWidth}%"></div>
+            </div>
+            <div class="waterfall-value waterfall-value--${cls}">${sign}${f.value.toFixed(1)}d</div>
+        </div>`;
+    });
+
+    // Total row
+    const totalBarWidth = Math.min(90, (predicted / (baseline + maxAbsVal)) * 90);
+    html += `<div class="waterfall-row waterfall-row--total">
+        <div class="waterfall-label">Your Estimate</div>
+        <div class="waterfall-bar-container">
+            <div class="waterfall-bar waterfall-bar--total" style="left:0;width:${totalBarWidth}%"></div>
+        </div>
+        <div class="waterfall-value waterfall-value--total">${predicted.toFixed(1)}d</div>
+    </div>`;
+
+    chart.innerHTML = html;
+    section.style.display = 'block';
+}
+
+// ============================================
+// WHAT-IF SCENARIO ANALYSIS
+// ============================================
+async function runWhatIfAnalysis(formData, currentResult) {
+    const section = document.getElementById('whatif-section');
+    const grid = document.getElementById('whatif-grid');
+    if (!section || !grid || !formData) return;
+
+    section.style.display = 'block';
+    grid.innerHTML = '<div class="whatif-loading"><div class="whatif-spinner"></div><span>Running AI scenario analysis...</span></div>';
+
+    const scenarios = [
+        {
+            name: 'Current Application',
+            desc: 'Your submitted parameters',
+            icon: '📋',
+            iconClass: 'current',
+            data: { ...formData },
+            days: currentResult.predicted_days,
+            isCurrent: true
+        },
+        {
+            name: formData.express_processing ? 'Without Express' : 'With Express Processing',
+            desc: formData.express_processing ? 'Standard processing speed' : 'Fast-track your application',
+            icon: '⚡',
+            iconClass: 'express',
+            data: { ...formData, express_processing: !formData.express_processing }
+        },
+        {
+            name: formData.documents_complete ? 'Incomplete Documents' : 'Complete Documents',
+            desc: formData.documents_complete ? 'Missing some documents' : 'All documents submitted',
+            icon: '📄',
+            iconClass: 'docs',
+            data: { ...formData, documents_complete: !formData.documents_complete }
+        },
+        {
+            name: 'Opposite Season',
+            desc: `Apply in ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][((formData.application_month + 5) % 12)]} instead`,
+            icon: '🌦️',
+            iconClass: 'season',
+            data: { ...formData, application_month: ((formData.application_month + 5) % 12) + 1 }
+        }
+    ];
+
+    // Fetch predictions for non-current scenarios
+    const promises = scenarios.slice(1).map(async (s) => {
+        try {
+            const resp = await fetch(API_BASE + '/api/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(s.data)
+            });
+            if (!resp.ok) throw new Error('Failed');
+            const result = await resp.json();
+            s.days = result.predicted_days;
+        } catch {
+            s.days = null;
+        }
+    });
+
+    await Promise.all(promises);
+
+    const baseDays = currentResult.predicted_days;
+    let html = '';
+
+    scenarios.forEach(s => {
+        if (s.days === null) return;
+        const diff = s.days - baseDays;
+        const diffText = s.isCurrent ? 'baseline' : (diff > 0 ? `+${diff.toFixed(1)}d slower` : diff < 0 ? `${diff.toFixed(1)}d faster` : 'same');
+        const cardClass = s.isCurrent ? 'whatif-card--current' : (diff < 0 ? 'whatif-card--better' : diff > 0 ? 'whatif-card--worse' : '');
+        const daysClass = s.isCurrent ? 'whatif-result__days--current' : (diff < 0 ? 'whatif-result__days--better' : diff > 0 ? 'whatif-result__days--worse' : '');
+        const diffColor = s.isCurrent ? 'color:var(--accent)' : (diff < 0 ? 'color:#22c55e' : 'color:#ef4444');
+
+        html += `<div class="whatif-card ${cardClass}">
+            <div class="whatif-icon whatif-icon--${s.iconClass}">${s.icon}</div>
+            <div class="whatif-info">
+                <h4>${s.name}</h4>
+                <p>${s.desc}</p>
+            </div>
+            <div class="whatif-result">
+                <div class="whatif-result__days ${daysClass}">${s.days.toFixed(1)}d</div>
+                <div class="whatif-result__diff" style="${diffColor}">${diffText}</div>
+            </div>
+        </div>`;
+    });
+
+    grid.innerHTML = html;
+}
+
+// ============================================
+// OPTIMAL MONTH RECOMMENDER
+// ============================================
+async function findOptimalMonth(formData) {
+    const section = document.getElementById('optimal-month-section');
+    const chartEl = document.getElementById('optimal-month-chart');
+    const recEl = document.getElementById('optimal-month-recommendation');
+    if (!section || !chartEl || !formData) return;
+
+    section.style.display = 'block';
+    chartEl.innerHTML = '<div class="whatif-loading"><div class="whatif-spinner"></div><span>Analyzing all 12 months...</span></div>';
+
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const results = [];
+
+    // Fetch predictions for all 12 months
+    const promises = Array.from({ length: 12 }, (_, i) => {
+        const monthData = { ...formData, application_month: i + 1 };
+        return fetch(API_BASE + '/api/predict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(monthData)
+        })
+            .then(r => r.json())
+            .then(data => { results[i] = data.predicted_days; })
+            .catch(() => { results[i] = null; });
+    });
+
+    await Promise.all(promises);
+
+    const validResults = results.filter(r => r !== null);
+    if (validResults.length === 0) return;
+
+    const minDays = Math.min(...validResults);
+    const maxDays = Math.max(...validResults);
+    const bestMonth = results.indexOf(minDays);
+    const worstMonth = results.indexOf(maxDays);
+    const currentMonth = (formData.application_month || 1) - 1;
+    const range = maxDays - minDays || 1;
+
+    let html = '';
+    results.forEach((days, i) => {
+        if (days === null) return;
+        const height = 20 + ((days - minDays) / range) * 120; // invert: shorter = less days = shorter bar
+        const invertedHeight = 20 + ((maxDays - days) / range) * 120; // better months get taller bars
+        let fillClass = '';
+        let labelClass = '';
+        if (i === bestMonth) { fillClass = 'month-bar__fill--best'; labelClass = 'month-bar__label--best'; }
+        else if (i === worstMonth) { fillClass = 'month-bar__fill--worst'; }
+        else if (i === currentMonth) { fillClass = 'month-bar__fill--current'; labelClass = 'month-bar__label--current'; }
+
+        html += `<div class="month-bar">
+            <div class="month-bar__value">${days.toFixed(1)}</div>
+            <div class="month-bar__fill ${fillClass}" style="height:${invertedHeight}px"></div>
+            <div class="month-bar__label ${labelClass}">${monthNames[i]}${i === bestMonth ? ' ★' : ''}</div>
+        </div>`;
+    });
+
+    chartEl.innerHTML = html;
+
+    // Show recommendation
+    if (recEl) {
+        const saving = results[currentMonth] - minDays;
+        const savingPct = Math.round((saving / results[currentMonth]) * 100);
+        if (bestMonth === currentMonth) {
+            recEl.innerHTML = `✅ Great news! <strong>${monthNames[bestMonth]}</strong> is already the optimal month to apply. You're on track for the fastest processing time of <strong>${minDays.toFixed(1)} days</strong>.`;
+        } else {
+            recEl.innerHTML = `💡 <strong>Recommendation:</strong> Applying in <strong>${monthNames[bestMonth]}</strong> could save you <strong>${saving.toFixed(1)} days</strong> (${savingPct}% faster) compared to your current month (${monthNames[currentMonth]}). Best: <strong>${minDays.toFixed(1)}d</strong> vs Current: <strong>${results[currentMonth].toFixed(1)}d</strong>.`;
+        }
+        recEl.style.display = 'block';
+    }
+}
+
+// ============================================
 // INITIALIZE
 // ============================================
 document.addEventListener('DOMContentLoaded', function () {
     initTheme();
     initScrollReveal();
+    initBackToTop();
+    initAnimatedCounters();
     setDefaultMonth();
     renderHistory(); // Load prediction history
     initCustomValidation(); // Custom validation UI
