@@ -1,5 +1,5 @@
 # FastAPI Server for Visa Processing Time Estimator
-# Author: Harsh
+# Author: Rahul Makwana
 # Infosys Springboard Project - Milestone 4
 
 from fastapi import FastAPI, HTTPException
@@ -9,6 +9,8 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import Optional
 import os
+import asyncio
+import httpx
 
 from prediction_service import get_prediction_service
 
@@ -31,13 +33,34 @@ app.add_middleware(
 # Initialize prediction service
 prediction_service = None
 
+# Self-ping interval in seconds (5 minutes)
+PING_INTERVAL = 300
+
+
+async def keep_alive():
+    """Background task that pings the health endpoint every 5 minutes
+    to prevent Render free tier from spinning down the service."""
+    # Get the Render service URL from environment, fallback to localhost
+    base_url = os.environ.get("RENDER_EXTERNAL_URL", "http://localhost:8000")
+    async with httpx.AsyncClient() as client:
+        while True:
+            await asyncio.sleep(PING_INTERVAL)
+            try:
+                response = await client.get(f"{base_url}/api/health", timeout=10)
+                print(f"[Keep-Alive] Ping OK — status {response.status_code}")
+            except Exception as e:
+                print(f"[Keep-Alive] Ping failed — {e}")
+
 
 @app.on_event("startup")
 async def startup_event():
     """Load the prediction service on startup"""
     global prediction_service
     prediction_service = get_prediction_service()
+    # Start the keep-alive background task
+    asyncio.create_task(keep_alive())
     print("✓ API server started successfully!")
+    print(f"✓ Keep-alive ping scheduled every {PING_INTERVAL // 60} minutes")
 
 
 # Request/Response Models
